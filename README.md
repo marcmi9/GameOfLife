@@ -1,3 +1,3 @@
 # GameOfLife
 
-By Jordi, Jordan, Marcmi
+By Jordi, jordanx12, Marcmi9
