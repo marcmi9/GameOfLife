@@ -1,3 +1,3 @@
 # LifeOfGame
 
-By Jordi, jordanx12, Marcmi9
+By jordireb92, jordanx12, marcmi9
