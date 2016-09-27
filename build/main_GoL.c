@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ncurses.h>
+#include <unistd.h>
 //#include <stdbool.h>
 
 #define rows 20
 #define cols 20
 #define init_center 10
+#define DELAY 10000*100
 
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2]);
 void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
@@ -15,8 +18,14 @@ void plot_cells(char live_cells[rows+2][cols+2]);
 
 int main()
 {    
+	
+	initscr();
+	noecho();
+	curs_set(FALSE);
+	
     int cell_list[rows*cols][2]; // llista amb les coordenades de les cells vives
-    memset(cell_list,0,sizeof(int)*(rows+2)*(cols+2)*2); //inicialitzem a 0
+    memset(cell_list,0,sizeof(int)*(rows+2)*(cols+2)*2); //inicialitzem a 0. 
+    //PER QUÈ ROWS I COLS +2?
 
     int cell_list_2[rows*cols][2]; // llista amb les coordenades de les cells vives
     memset(cell_list_2,0,sizeof(int)*(rows+2)*(cols+2)*2); //inicialitzem a 0
@@ -80,7 +89,7 @@ int main()
             check_cell(cell_list[i][0],     cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, &n_cells_2, live_cells_2);
             check_cell(cell_list[i][0]+1,   cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, &n_cells_2, live_cells_2);
         }
-
+		// PER QUÈ EL MEMSET NO ÉS COM A L'INICI???
         memset(cell_list,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
         n_cells = 0;
 
@@ -116,6 +125,8 @@ int main()
 
         plot_cells(live_cells);
     }
+    
+    endwin();
 
     return 0;
 }
@@ -124,7 +135,7 @@ void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[row
 {
     for (int i = 0; i < *n_cells; i++)
     {
-        live_cells[cell_list[i][1]][cell_list[i][0]] = 1;
+        live_cells[cell_list[i][1]][cell_list[i][0]] = 1; // PER QUÈ EL PRIMER VALOR SÓN LES COLUMNES I NO LES FILES?
     }
 }
 
@@ -175,15 +186,21 @@ int count_cells(int x, int y, char live_cells[rows+2][cols+2])
 
 void plot_cells(char live_cells[rows+2][cols+2])
 {
+	clear();
     for (int i = 1; i <= rows; i++)
     {
         for (int j = 1; j <= cols; j++)
         {
-            printf("%i ", live_cells[i][j]);
+            //printf("%i ", live_cells[j][i]);
+            char hola[1];
+            strcpy(hola, "a");
+            mvprintw(j,i,&live_cells[j][i]); //Not working....
         }
-        printf("\n");
+        //printf("\n");
     }
-    printf("\n");
+    refresh();
+    usleep(DELAY);
+    //printf("\n");
 }
 
 
