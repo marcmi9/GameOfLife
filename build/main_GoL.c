@@ -20,7 +20,7 @@ void plot_cells(char live_cells[rows+2][cols+2]);
 
 WINDOW *init_window(int height, int width);
 
-WINDOW *my_win;
+WINDOW *window;
 
 //int cols = 2*rows;
 int init_center_x = cols/2;
@@ -36,7 +36,7 @@ int main()
 	cbreak();
 	curs_set(FALSE);
 	
-	my_win = init_window(rows,cols);
+	window = init_window(rows,cols);
 	
     int cell_list[rows*cols][2]; // llista amb les coordenades de les cells vives
     memset(cell_list,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0. 
@@ -91,7 +91,13 @@ int main()
     //-------------------------------------- programa principal ---------------------------------------------------
     for(int l = 0; true; l++)
     {
-		while (ch = wgetch(my_win) != 'q') {  }
+        
+        while ((ch = wgetch(window)) != 'd') { 
+				switch (ch) {
+					case KEY_DOWN: // NOT WORKING :(
+						break;
+				}
+		}
 
         for (int i = 0; i < n_cells; i++) //Per a cada cell viva s'evaluen els neighbours
 
@@ -109,7 +115,7 @@ int main()
             check_cell(cell_list[i][0]+1,   cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, &n_cells_2, live_cells_2);
         }
 	
-        memset(cell_list,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0 --> PER QUÈ NO TÉ EL *2 COM A DALT DE TOT?
+        memset(cell_list,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0 
         n_cells = 0;
 
         memset(live_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
@@ -119,7 +125,12 @@ int main()
 
         plot_cells(live_cells_2);
         
-        while (ch = wgetch(my_win) != 'q') {  }
+        while ((ch = wgetch(window)) != 'd') { 
+				switch (ch) {
+					case KEY_DOWN: // NOT WORKING :(
+						break;
+				}
+		}
 
 
         for (int i = 0; i < n_cells_2; i++) //Per a cada cell viva s'evaluen els neighbours
@@ -147,7 +158,7 @@ int main()
         plot_cells(live_cells);
     }
     
-    delwin(my_win);
+    delwin(window);
     endwin(); //que es¿?¿? PER TANCAR EL NCURSES QUAN ACABA TOTA L'EXECUCIÓ
 
     return 0;
@@ -219,19 +230,19 @@ int count_cells(int x, int y, char live_cells[rows+2][cols+2])
 
 void plot_cells(char live_cells[rows+2][cols+2])
 {
-	wclear(my_win);
-	box(my_win,0,0);
-	wborder(my_win, '|', '|', '~', '~', '+', '+', '+', '+');
+	wclear(window);
+	box(window,0,0);
+	wborder(window, '|', '|', '~', '~', '+', '+', '+', '+');
     for (int i = 1; i <= rows; i++)
     {
         for (int j = 1; j <= cols; j++)
         {
             if (live_cells[j][i] == 1) {
-				mvwprintw(my_win,j,i,"O"); //Not working....
+				mvwprintw(window,j,i,"O"); //Not working....
 			}
         }
     }
-    wrefresh(my_win);
+    wrefresh(window);
     usleep(DELAY); 
 }
 
