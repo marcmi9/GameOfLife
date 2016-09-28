@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ncurses.h>
 #include <unistd.h>
+//#include "functions_init.c"
 //#include <stdbool.h>
 
 //X cap a la dreta, Y cap abaix
@@ -15,6 +16,8 @@
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2]);
 void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
 int count_cells(int x, int y, char live_cells[rows+2][cols+2]);
+void draw_cell(int x, int y, int cell_list[rows*cols][2], int *n_cells);
+void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n_cells);
 
 void plot_cells(char live_cells[rows+2][cols+2]);
 
@@ -60,77 +63,12 @@ int main()
 
     char checked_cells[rows+2][cols+2]; // matriu on es mostren les cells comprobades, siguin vives o mortes
     memset(checked_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
-    
-    
-    // SI DESCOMENTEM AIXÒ, FUNCIONA (MES O MENYS). SI UTILITZEM LA FUNCIÓ "STARTING_MENU()", NO!! I ÉS EL MATEIX...
-/*
-	choice = -1;
-
-    WINDOW *w;
-    char list[5][18] = { "Choose a game:", "The R-Pentomino", "Diehard", "Acorn", "Quit" };
-    char item[7];
-    int ch, i = 0, width = 7;
- 
-    w = newwin( 8, 20, 1, 30 ); // create a new window
-    box( w, 0, 0 );
-
-    for( i = 0; i < 5; i++ ) {
-		if (i == 0)
-			wattron(w, A_BOLD);
-        else if( i == 1 ) 
-            wattron( w, A_STANDOUT | A_BOLD  ); // highlights the first item.
-        else
-            wattroff( w, A_STANDOUT | A_BOLD  );
-        sprintf(item, "%-15s",  list[i]);
-        mvwprintw( w, i+1, 2, "%s", item );
-    }
- 
-    wrefresh( w ); // update the terminal screen
- 
-    i = 1;
-    keypad( w, TRUE ); // enable keyboard input for the window.
-    curs_set( 0 ); // hide the default screen cursor.
-     
-    // get the input
-    while(choice == -1 && ( ch = wgetch(w)) != 'q'){ 
-			
-            sprintf(item, "%-15s",  list[i]); 
-            mvwprintw( w, i+1, 2, "%s", item ); 
-
-            switch( ch ) {
-                case KEY_UP:
-                            i--;
-                            if (i < 1) { i = 4; }
-                            break;
-                case KEY_DOWN:
-                            i++;
-                            if (i > 4) { i = 1; }
-                            break;
-				case KEY_RIGHT:
-							choice = i;
-							break;
-            }
-
-            wattron( w, A_STANDOUT | A_BOLD  );
-             
-            sprintf(item, "%-15s",  list[i]);
-            mvwprintw( w, i+1, 2, "%s", item);
-            
-            wattroff( w, A_STANDOUT | A_BOLD );
-            wrefresh(w);
-    }
- 
-    delwin(w);
-    refresh();
-*/
 
 	starting_menu();
 
-	
-
-
-	if (choice != 4) {
+	if (choice !=4) {
     //------------------------------------ init -----------------------------------------
+    
     cell_list[0][0] = init_center_x;
     cell_list[0][1] = init_center_y;
 
@@ -155,6 +93,8 @@ int main()
     cell_list[4][1] = init_center_y;
 
     n_cells++;
+
+    
     //---------------------------------------------------------------------------------------------
 	
     store_cells(cell_list,&n_cells,live_cells); // funcio per a passar la llista de cells vives a la matriu binaria
@@ -166,7 +106,11 @@ int main()
     {
         
         while ((ch = wgetch(window)) != 'd') { 
-
+			if (ch == 'q') {
+				endwin();
+				return 0;
+				//break;
+			}
 		}
 
         for (int i = 0; i < n_cells; i++) //Per a cada cell viva s'evaluen els neighbours
@@ -196,7 +140,10 @@ int main()
         plot_cells(live_cells_2);
         
         while ((ch = wgetch(window)) != 'd') { 
-
+			if (ch == 'q') {
+				endwin();
+				return 0;
+			}
 		}
 
 
@@ -227,8 +174,8 @@ int main()
     
     delwin(window);
     endwin(); //que es¿?¿? PER TANCAR EL NCURSES QUAN ACABA TOTA L'EXECUCIÓ
+	
 	}
-
 
     return 0;
 }
@@ -239,19 +186,20 @@ void starting_menu() {
 
     WINDOW *w;
     char list[5][18] = { "Choose a game:", "The R-Pentomino", "Diehard", "Acorn", "Quit" };
-    char item[7];
-    int ch, i = 0, width = 7;
+    char item[18];
+    int ch, i = 0, width = 18;
  
+    initscr(); // initialize Ncurses
     w = newwin( 8, 20, 1, 30 ); // create a new window
-    box( w, 0, 0 );
-
+    box( w, 0, 0 ); // sets default borders for the window
+     
+// now print all the menu items and highlight the first one
     for( i = 0; i < 5; i++ ) {
-		if (i == 0)
-			wattron(w, A_BOLD);
-        else if( i == 1 ) 
-            wattron( w, A_STANDOUT | A_BOLD  ); // highlights the first item.
+		if (i == 1) wattron(w, A_STANDOUT | A_BOLD);
+        else if( i == 0 ) 
+            wattron( w, A_BOLD ); // highlights the first item.
         else
-            wattroff( w, A_STANDOUT | A_BOLD  );
+            wattroff( w, A_STANDOUT | A_BOLD );
         sprintf(item, "%-15s",  list[i]);
         mvwprintw( w, i+1, 2, "%s", item );
     }
@@ -259,43 +207,44 @@ void starting_menu() {
     wrefresh( w ); // update the terminal screen
  
     i = 1;
+    //noecho(); // disable echoing of characters on the screen
     keypad( w, TRUE ); // enable keyboard input for the window.
     curs_set( 0 ); // hide the default screen cursor.
      
-    // get the input
+       // get the input
     while(choice == -1 && ( ch = wgetch(w)) != 'q'){ 
-			
+         
+                // right pad with spaces to make the items appear with even width.
             sprintf(item, "%-15s",  list[i]); 
             mvwprintw( w, i+1, 2, "%s", item ); 
-
+              // use a variable to increment or decrement the value based on the input.
             switch( ch ) {
                 case KEY_UP:
-                            i--;
-                            if (i < 1) { i = 4; }
-                            break;
+					i--;
+					if (i < 1) i = 4;
+					break;
                 case KEY_DOWN:
-                            i++;
-                            if (i > 4) { i = 1; }
-                            break;
+					i++;
+					if (i > 4) i = 1;
+					break;
 				case KEY_RIGHT:
-							choice = i;
-							break;
+					choice = i;
+					break;
             }
-
-            wattron( w, A_STANDOUT | A_BOLD  );
+            // now highlight the next item in the list.
+            wattron( w, A_STANDOUT );
              
             sprintf(item, "%-15s",  list[i]);
             mvwprintw( w, i+1, 2, "%s", item);
-            
-            wattroff( w, A_STANDOUT | A_BOLD );
-            wrefresh(w);
+            wattroff( w, A_STANDOUT );
     }
  
-    delwin(w);
-    refresh();
-
-
+    delwin( w );
+    endwin();
+	
 }
+
+//-------------------------FUNCTIONS--------------------------//
 
 WINDOW *init_window(int height, int width) {
 	
@@ -371,7 +320,7 @@ void plot_cells(char live_cells[rows+2][cols+2])
         for (int j = 1; j <= cols; j++)
         {
             if (live_cells[j][i] == 1) {
-				mvwprintw(window,j,i,"O"); //Not working....
+				mvwprintw(window,j,i,"O"); 
 			}
         }
     }
@@ -379,6 +328,197 @@ void plot_cells(char live_cells[rows+2][cols+2])
     usleep(DELAY); 
 }
 
+void draw_cell(int x, int y, int cell_list[rows*cols][2], int *n_cells)
+{
+    cell_list[*n_cells][0] = x;
+    cell_list[*n_cells][1] = y;
+    *n_cells++;
+
+}
+
+void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n_cells)
+{
+    switch(choice)
+    {
+        case 1:
+			// Glider
+            draw_cell(x+1,   y, cell_list, n_cells);
+            draw_cell(x+2, y+1, cell_list, n_cells);
+            draw_cell(x,   y+2, cell_list, n_cells);
+            draw_cell(x+1, y+2, cell_list, n_cells);
+            draw_cell(x+2, y+2, cell_list, n_cells);
+
+        break;
+
+        case 2:
+			// small_exploder
+            draw_cell(x+1,   y, cell_list, n_cells);
+            draw_cell(x,   y+1, cell_list, n_cells);
+            draw_cell(x+1, y+1, cell_list, n_cells);
+            draw_cell(x+2, y+1, cell_list, n_cells);
+            draw_cell(x,   y+2, cell_list, n_cells);
+            draw_cell(x+2, y+2, cell_list, n_cells);
+            draw_cell(x+1, y+3, cell_list, n_cells);
+
+        break;
+
+        case 3:
+			// exploder
+            draw_cell(x  , y  , cell_list, n_cells);
+            draw_cell(x+2, y  , cell_list, n_cells);
+            draw_cell(x+4, y  , cell_list, n_cells);
+            draw_cell(x  , y+1, cell_list, n_cells);
+            draw_cell(x  , y+2, cell_list, n_cells);
+            draw_cell(x  , y+3, cell_list, n_cells);
+            draw_cell(x  , y+4, cell_list, n_cells);
+            draw_cell(x+4, y+1, cell_list, n_cells);
+            draw_cell(x+4, y+2, cell_list, n_cells);
+            draw_cell(x+4, y+3, cell_list, n_cells);
+            draw_cell(x+4, y+4, cell_list, n_cells);
+
+        break;
+
+        case 4:
+			// 10_cell_row
+            for (int k = 0; k < 10; k++)
+            {
+               draw_cell(x+k, y, cell_list, n_cells);
+            }
+
+        break;
+
+        case 5:
+			// spaceship
+            draw_cell(x+1, y  , cell_list, n_cells);
+            draw_cell(x+2, y  , cell_list, n_cells);
+            draw_cell(x+3, y  , cell_list, n_cells);
+            draw_cell(x+4, y  , cell_list, n_cells);
+            draw_cell(x  , y+1, cell_list, n_cells);
+            draw_cell(x+4, y+1, cell_list, n_cells);
+            draw_cell(x+4, y+2, cell_list, n_cells);
+            draw_cell(x  , y+3, cell_list, n_cells);
+            draw_cell(x+3, y+3, cell_list, n_cells);
+
+        break;
+
+        case 6:
+			// tumbler
+            draw_cell(x+1, y  , cell_list, n_cells);
+            draw_cell(x+2, y  , cell_list, n_cells);
+            draw_cell(x+4, y  , cell_list, n_cells);
+            draw_cell(x+5, y  , cell_list, n_cells);
+            draw_cell(x+1, y+1, cell_list, n_cells);
+            draw_cell(x+2, y+1, cell_list, n_cells);
+            draw_cell(x+4, y+1, cell_list, n_cells);
+            draw_cell(x+5, y+1, cell_list, n_cells);
+            draw_cell(x+2, y+2, cell_list, n_cells);
+            draw_cell(x+4, y+2, cell_list, n_cells);
+            draw_cell(x+2, y+3, cell_list, n_cells);
+            draw_cell(x+4, y+3, cell_list, n_cells);
+            draw_cell(x+2, y+4, cell_list, n_cells);
+            draw_cell(x+4, y+4, cell_list, n_cells);
+
+            draw_cell(x  , y+3, cell_list, n_cells);
+            draw_cell(x+6, y+3, cell_list, n_cells);
+            draw_cell(x  , y+4, cell_list, n_cells);
+            draw_cell(x+6, y+4, cell_list, n_cells);
+            draw_cell(x  , y+5, cell_list, n_cells);
+            draw_cell(x+6, y+5, cell_list, n_cells);
+
+            draw_cell(x+1, y+5, cell_list, n_cells);
+            draw_cell(x+5, y+5, cell_list, n_cells);
+
+
+        break;
+
+        case 7:
+			// glider_gun
+            draw_cell(x  , y+2, cell_list, n_cells);
+            draw_cell(x  , y+2, cell_list, n_cells);
+            draw_cell(x+1, y+3, cell_list, n_cells);
+            draw_cell(x+1, y+3, cell_list, n_cells);
+
+            draw_cell(x+9 , y+2, cell_list, n_cells);
+            draw_cell(x+10, y+2, cell_list, n_cells);
+            draw_cell(x+8, y+3, cell_list, n_cells);
+            draw_cell(x+10, y+3, cell_list, n_cells);
+            draw_cell(x+8, y+4, cell_list, n_cells);
+            draw_cell(x+9, y+4, cell_list, n_cells);
+
+            draw_cell(x+16, y+4, cell_list, n_cells);
+            draw_cell(x+17, y+4, cell_list, n_cells);
+            draw_cell(x+16, y+5, cell_list, n_cells);
+            draw_cell(x+18, y+5, cell_list, n_cells);
+            draw_cell(x+16, y+6, cell_list, n_cells);
+
+            draw_cell(x+23 , y, cell_list, n_cells);
+            draw_cell(x+24, y, cell_list, n_cells);
+            draw_cell(x+22, y+1, cell_list, n_cells);
+            draw_cell(x+24, y+1, cell_list, n_cells);
+            draw_cell(x+22, y+2, cell_list, n_cells);
+            draw_cell(x+23, y+2, cell_list, n_cells);
+
+            draw_cell(x+24, y+12, cell_list, n_cells);
+            draw_cell(x+25, y+12, cell_list, n_cells);
+            draw_cell(x+26, y+12, cell_list, n_cells);
+            draw_cell(x+24, y+13, cell_list, n_cells);
+            draw_cell(x+25, y+14, cell_list, n_cells);
+
+            draw_cell(x+34, y  , cell_list, n_cells);
+            draw_cell(x+34, y  , cell_list, n_cells);
+            draw_cell(x+35, y+1, cell_list, n_cells);
+            draw_cell(x+35, y+1, cell_list, n_cells);
+
+            draw_cell(x+35, y+7, cell_list, n_cells);
+            draw_cell(x+36, y+7, cell_list, n_cells);
+            draw_cell(x+35, y+8, cell_list, n_cells);
+            draw_cell(x+37, y+8, cell_list, n_cells);
+            draw_cell(x+35, y+9, cell_list, n_cells);
+
+        break;
+
+        case 8:
+			// r_pentomino
+            draw_cell(x+1, y  , cell_list, n_cells);
+            draw_cell(x+2, y  , cell_list, n_cells);
+            draw_cell(x  , y+1, cell_list, n_cells);
+            draw_cell(x+1, y+1, cell_list, n_cells);
+            draw_cell(x+1, y+2, cell_list, n_cells);
+
+        break;
+
+        case 9:
+			// diehard
+            draw_cell(x  , y+1, cell_list, n_cells);
+            draw_cell(x+1, y+1, cell_list, n_cells);
+            draw_cell(x+1, y+2, cell_list, n_cells);
+
+            draw_cell(x+6, y  , cell_list, n_cells);
+
+            draw_cell(x+5, y+2, cell_list, n_cells);
+            draw_cell(x+6, y+2, cell_list, n_cells);
+            draw_cell(x+7, y+2, cell_list, n_cells);
+
+
+        break;
+
+        case 10:
+			// acorn
+            draw_cell(x+1, y  , cell_list, n_cells);
+            draw_cell(x+3, y+1, cell_list, n_cells);
+
+            draw_cell(x  , y+2, cell_list, n_cells);
+            draw_cell(x+1, y+2, cell_list, n_cells);
+            draw_cell(x+4, y+2, cell_list, n_cells);
+            draw_cell(x+5, y+2, cell_list, n_cells);
+            draw_cell(x+6, y+2, cell_list, n_cells);
+
+        break;
+
+        default:
+        break;
+    }
+}
 
 
 
