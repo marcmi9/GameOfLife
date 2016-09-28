@@ -18,6 +18,10 @@ int count_cells(int x, int y, char live_cells[rows+2][cols+2]);
 
 void plot_cells(char live_cells[rows+2][cols+2]);
 
+void starting_menu();
+
+int choice;
+
 WINDOW *init_window(int height, int width);
 
 WINDOW *window;
@@ -56,7 +60,76 @@ int main()
 
     char checked_cells[rows+2][cols+2]; // matriu on es mostren les cells comprobades, siguin vives o mortes
     memset(checked_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+    
+    
+    // SI DESCOMENTEM AIXÒ, FUNCIONA. SI UTILITZEM LA FUNCIÓ "STARTING_MENU()", NO!! I ÉS EL MATEIX...
 
+	choice = -1;
+
+    WINDOW *w;
+    char list[5][18] = { "Choose a game:", "The R-Pentomino", "Diehard", "Acorn", "Quit" };
+    char item[7];
+    int ch, i = 0, width = 7;
+ 
+    w = newwin( 8, 20, 1, 30 ); // create a new window
+    box( w, 0, 0 );
+
+    for( i = 0; i < 5; i++ ) {
+		if (i == 0)
+			wattron(w, A_BOLD);
+        else if( i == 1 ) 
+            wattron( w, A_STANDOUT | A_BOLD  ); // highlights the first item.
+        else
+            wattroff( w, A_STANDOUT | A_BOLD  );
+        sprintf(item, "%-15s",  list[i]);
+        mvwprintw( w, i+1, 2, "%s", item );
+    }
+ 
+    wrefresh( w ); // update the terminal screen
+ 
+    i = 1;
+    keypad( w, TRUE ); // enable keyboard input for the window.
+    curs_set( 0 ); // hide the default screen cursor.
+     
+    // get the input
+    while(choice == -1 && ( ch = wgetch(w)) != 'q'){ 
+			
+            sprintf(item, "%-15s",  list[i]); 
+            mvwprintw( w, i+1, 2, "%s", item ); 
+
+            switch( ch ) {
+                case KEY_UP:
+                            i--;
+                            if (i < 1) { i = 4; }
+                            break;
+                case KEY_DOWN:
+                            i++;
+                            if (i > 4) { i = 1; }
+                            break;
+				case KEY_RIGHT:
+							choice = i;
+							break;
+            }
+
+            wattron( w, A_STANDOUT | A_BOLD  );
+             
+            sprintf(item, "%-15s",  list[i]);
+            mvwprintw( w, i+1, 2, "%s", item);
+            
+            wattroff( w, A_STANDOUT | A_BOLD );
+            wrefresh(w);
+    }
+ 
+    delwin(w);
+    refresh();
+
+
+	//starting_menu();
+
+	
+
+
+	if (choice != 4) {
     //------------------------------------ init -----------------------------------------
     cell_list[0][0] = init_center_x;
     cell_list[0][1] = init_center_y;
@@ -93,10 +166,7 @@ int main()
     {
         
         while ((ch = wgetch(window)) != 'd') { 
-				switch (ch) {
-					case KEY_DOWN: // NOT WORKING :(
-						break;
-				}
+
 		}
 
         for (int i = 0; i < n_cells; i++) //Per a cada cell viva s'evaluen els neighbours
@@ -126,10 +196,7 @@ int main()
         plot_cells(live_cells_2);
         
         while ((ch = wgetch(window)) != 'd') { 
-				switch (ch) {
-					case KEY_DOWN: // NOT WORKING :(
-						break;
-				}
+
 		}
 
 
@@ -160,8 +227,74 @@ int main()
     
     delwin(window);
     endwin(); //que es¿?¿? PER TANCAR EL NCURSES QUAN ACABA TOTA L'EXECUCIÓ
+	}
+
 
     return 0;
+}
+
+void starting_menu() {
+	
+	choice = -1;
+
+    WINDOW *w;
+    char list[5][18] = { "Choose a game:", "The R-Pentomino", "Diehard", "Acorn", "Quit" };
+    char item[7];
+    int ch, i = 0, width = 7;
+ 
+    w = newwin( 8, 20, 1, 30 ); // create a new window
+    box( w, 0, 0 );
+
+    for( i = 0; i < 5; i++ ) {
+		if (i == 0)
+			wattron(w, A_BOLD);
+        else if( i == 1 ) 
+            wattron( w, A_STANDOUT | A_BOLD  ); // highlights the first item.
+        else
+            wattroff( w, A_STANDOUT | A_BOLD  );
+        sprintf(item, "%-15s",  list[i]);
+        mvwprintw( w, i+1, 2, "%s", item );
+    }
+ 
+    wrefresh( w ); // update the terminal screen
+ 
+    i = 1;
+    keypad( w, TRUE ); // enable keyboard input for the window.
+    curs_set( 0 ); // hide the default screen cursor.
+     
+    // get the input
+    while(choice == -1 && ( ch = wgetch(w)) != 'q'){ 
+			
+            sprintf(item, "%-15s",  list[i]); 
+            mvwprintw( w, i+1, 2, "%s", item ); 
+
+            switch( ch ) {
+                case KEY_UP:
+                            i--;
+                            if (i < 1) { i = 4; }
+                            break;
+                case KEY_DOWN:
+                            i++;
+                            if (i > 4) { i = 1; }
+                            break;
+				case KEY_RIGHT:
+							choice = i;
+							break;
+            }
+
+            wattron( w, A_STANDOUT | A_BOLD  );
+             
+            sprintf(item, "%-15s",  list[i]);
+            mvwprintw( w, i+1, 2, "%s", item);
+            
+            wattroff( w, A_STANDOUT | A_BOLD );
+            wrefresh(w);
+    }
+ 
+    delwin(w);
+    refresh();
+
+
 }
 
 WINDOW *init_window(int height, int width) {
@@ -242,7 +375,7 @@ void plot_cells(char live_cells[rows+2][cols+2])
 			}
         }
     }
-    wrefresh(window);
+    refresh();
     usleep(DELAY); 
 }
 
