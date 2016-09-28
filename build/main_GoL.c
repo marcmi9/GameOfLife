@@ -214,7 +214,7 @@ void plot_cells(char live_cells[rows+2][cols+2])
 {
 	wclear(my_win);
 	box(my_win,0,0);
-	wborder(my_win, '|', '|', '-', '-', '+', '+', '+', '+');
+	wborder(my_win, '|', '|', '~', '~', '+', '+', '+', '+');
     for (int i = 1; i <= rows; i++)
     {
         for (int j = 1; j <= cols; j++)
