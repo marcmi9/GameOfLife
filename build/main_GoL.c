@@ -5,10 +5,12 @@
 #include <unistd.h>
 //#include <stdbool.h>
 
+//X cap a la dreta, Y cap abaix
+
 #define rows 20
 #define cols 20
-#define init_center 10
-#define DELAY 10000*100
+#define init_center 10  //referencia inicial
+#define DELAY 10000*100 //que es¿?¿?
 
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2]);
 void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
@@ -25,23 +27,24 @@ int main()
 	
     int cell_list[rows*cols][2]; // llista amb les coordenades de les cells vives
     memset(cell_list,0,sizeof(int)*(rows+2)*(cols+2)*2); //inicialitzem a 0. 
-    //PER QUÈ ROWS I COLS +2?
+    //ROWS I COLS +2 perque afegim uns contorns al nostre mapa
 
     int cell_list_2[rows*cols][2]; // llista amb les coordenades de les cells vives
     memset(cell_list_2,0,sizeof(int)*(rows+2)*(cols+2)*2); //inicialitzem a 0
 
-    int n_cells = 0;
+    int n_cells = 0; //Numero de celules vives, es el tamany de cell_list
     int n_cells_2 = 0;
 
-    char live_cells[rows+2][cols+2]; // matriu on es mostren les cells vives
+    char live_cells[rows+2][cols+2]; // matriu on es mostren les cells vives, la grid
     memset(live_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
 
     char live_cells_2[rows+2][cols+2]; // matriu on es mostren les cells vives
     memset(live_cells_2,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
 
-    char checked_cells[rows+2][cols+2]; // matriu on es mostren les cells vives
+    char checked_cells[rows+2][cols+2]; // matriu on es mostren les cells comprobades, siguin vives o mortes
     memset(checked_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
 
+    //------------------------------------ init -----------------------------------------
     cell_list[0][0] = init_center;
     cell_list[0][1] = init_center;
 
@@ -66,11 +69,13 @@ int main()
     cell_list[4][1] = init_center;
 
     n_cells++;
-
+    //---------------------------------------------------------------------------------------------
+	
     store_cells(cell_list,&n_cells,live_cells); // funcio per a passar la llista de cells vives a la matriu binaria
 
     plot_cells(live_cells);
-
+    
+    //-------------------------------------- programa principal ---------------------------------------------------
     for(int l = 0; l < 5; l++)
     {
 
@@ -89,7 +94,7 @@ int main()
             check_cell(cell_list[i][0],     cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, &n_cells_2, live_cells_2);
             check_cell(cell_list[i][0]+1,   cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, &n_cells_2, live_cells_2);
         }
-		// PER QUÈ EL MEMSET NO ÉS COM A L'INICI???
+	
         memset(cell_list,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
         n_cells = 0;
 
@@ -126,16 +131,16 @@ int main()
         plot_cells(live_cells);
     }
     
-    endwin();
+    endwin(); //que es¿?¿?
 
     return 0;
 }
 
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2])
-{
+{ //Passa de cell_list a live_cells
     for (int i = 0; i < *n_cells; i++)
     {
-        live_cells[cell_list[i][1]][cell_list[i][0]] = 1; // PER QUÈ EL PRIMER VALOR SÓN LES COLUMNES I NO LES FILES?
+        live_cells[cell_list[i][1]][cell_list[i][0]] = 1;
     }
 }
 
