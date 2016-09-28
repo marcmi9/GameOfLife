@@ -26,11 +26,11 @@ int main()
 	curs_set(FALSE);
 	
     int cell_list[rows*cols][2]; // llista amb les coordenades de les cells vives
-    memset(cell_list,0,sizeof(int)*(rows+2)*(cols+2)*2); //inicialitzem a 0. 
+    memset(cell_list,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0. 
     //ROWS I COLS +2 perque afegim uns contorns al nostre mapa
 
     int cell_list_2[rows*cols][2]; // llista amb les coordenades de les cells vives
-    memset(cell_list_2,0,sizeof(int)*(rows+2)*(cols+2)*2); //inicialitzem a 0
+    memset(cell_list_2,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0
 
     int n_cells = 0; //Numero de celules vives, es el tamany de cell_list
     int n_cells_2 = 0;
@@ -95,7 +95,7 @@ int main()
             check_cell(cell_list[i][0]+1,   cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, &n_cells_2, live_cells_2);
         }
 	
-        memset(cell_list,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+        memset(cell_list,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0 --> PER QUÈ NO TÉ EL *2 COM A DALT DE TOT?
         n_cells = 0;
 
         memset(live_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
@@ -122,7 +122,7 @@ int main()
             check_cell(cell_list_2[i][0]+1,   cell_list_2[i][1]+1,  live_cells_2, checked_cells, cell_list, &n_cells, live_cells);
         }
 
-        memset(cell_list_2,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+        memset(cell_list_2,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0
         n_cells_2 = 0;
 
         memset(live_cells_2,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
