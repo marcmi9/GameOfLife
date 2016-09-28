@@ -10,7 +10,7 @@
 #define rows 20
 #define cols 20
 #define init_center 10  //referencia inicial
-#define DELAY 10000*100 //que es¿?¿?
+#define DELAY 10000*50 //que es¿?¿? --> UN DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
 
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2]);
 void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
@@ -131,7 +131,7 @@ int main()
         plot_cells(live_cells);
     }
     
-    endwin(); //que es¿?¿?
+    endwin(); //que es¿?¿? PER TANCAR EL NCURSES QUAN ACABA TOTA L'EXECUCIÓ
 
     return 0;
 }
@@ -199,7 +199,9 @@ void plot_cells(char live_cells[rows+2][cols+2])
             //printf("%i ", live_cells[j][i]);
             char hola[1];
             strcpy(hola, "a");
-            mvprintw(j,i,&live_cells[j][i]); //Not working....
+            if (live_cells[j][i] == 1) {
+				mvprintw(j,i,"O"); //Not working....
+			}
         }
         //printf("\n");
     }
