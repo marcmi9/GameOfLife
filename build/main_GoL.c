@@ -3,10 +3,15 @@
 #include <string.h>
 #include <ncurses.h>
 #include <unistd.h>
-//#include "functions_init.c"
-//#include <stdbool.h>
 
-//X cap a la dreta, Y cap abaix
+//X cap a la dreta, Y cap abaix --> ncurses funciona al revés...
+
+/* COSES QUE FALTEN:
+ * - Canviar eixos X per Y.
+ * - Si canviem numero de cols de 20 a 40 (per exemple) la meitat del dibuix no es veu! per què?
+ * - Arreglar les funcions_init del Jordan (les he posat en aquest arxiu, per no liar-la)
+ */
+
 
 #define rows 20
 #define cols 20
@@ -17,35 +22,30 @@ void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[row
 void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
 int count_cells(int x, int y, char live_cells[rows+2][cols+2]);
 void draw_cell(int x, int y, int cell_list[rows*cols][2], int *n_cells);
+
 void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n_cells);
-void hints();
 
 void plot_cells(char live_cells[rows+2][cols+2]);
 
 void starting_menu();
+void hints();
 
-int choice;
+
 
 WINDOW *init_window(int height, int width);
 
-WINDOW *window;
+//------GLOBAL VARIABLES------
 
-//int cols = 2*rows;
+WINDOW *window;
+int choice;
 int init_center_x = cols/2;
 int init_center_y = rows/2;
+int ch; // Character to read from keyboard
 
-int ch;
+//------MAIN PROGRAM---------
 
 int main()
 {    
-	
-	initscr();
-	noecho();
-	cbreak();
-	curs_set(FALSE);
-	
-	window = init_window(rows,cols);
-	
     int cell_list[rows*cols][2]; // llista amb les coordenades de les cells vives
     memset(cell_list,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0. 
     //ROWS I COLS +2 perque afegim uns contorns al nostre mapa
@@ -64,10 +64,17 @@ int main()
 
     char checked_cells[rows+2][cols+2]; // matriu on es mostren les cells comprobades, siguin vives o mortes
     memset(checked_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+	
+	initscr();
+	noecho();
+	cbreak();
+	curs_set(FALSE);
+	
+	window = init_window(rows,cols);
 
 	starting_menu();
 
-	if (choice !=4) {
+	if (choice != 4) {
     //------------------------------------ init -----------------------------------------
     
     cell_list[0][0] = init_center_x;
@@ -96,7 +103,8 @@ int main()
     n_cells++;
 	
 	
-	create_object(init_center_x, init_center_y, choice, cell_list, &n_cells);
+	//create_object(init_center_x, init_center_y, choice, cell_list, &n_cells);
+
 	
 	hints();
     
@@ -197,7 +205,7 @@ void starting_menu() {
     char item[18];
     int ch, i = 0;
 
-    w = newwin( 8, 20, 1, 30 ); // create a new window
+    w = newwin( 8, 20, 1, cols + 10 ); // create a new window
     box( w, 0, 0 ); // sets default borders for the window
     
     for( i = 0; i < 5; i++ ) {
@@ -253,7 +261,7 @@ void hints() {
 	
     WINDOW *w;
 
-    w = newwin( 4, 25, 1, 30 ); // create a new window
+    w = newwin( 4, 25, 1, cols + 10 ); // create a new window
     box( w, 0, 0 ); // sets default borders for the window
     
     mvwprintw(w, 1, 2, "Press 'D' to advance");
