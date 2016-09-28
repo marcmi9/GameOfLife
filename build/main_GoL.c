@@ -62,8 +62,8 @@ int main()
     memset(checked_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
     
     
-    // SI DESCOMENTEM AIXÒ, FUNCIONA. SI UTILITZEM LA FUNCIÓ "STARTING_MENU()", NO!! I ÉS EL MATEIX...
-
+    // SI DESCOMENTEM AIXÒ, FUNCIONA (MES O MENYS). SI UTILITZEM LA FUNCIÓ "STARTING_MENU()", NO!! I ÉS EL MATEIX...
+/*
 	choice = -1;
 
     WINDOW *w;
@@ -122,9 +122,9 @@ int main()
  
     delwin(w);
     refresh();
+*/
 
-
-	//starting_menu();
+	starting_menu();
 
 	
 
