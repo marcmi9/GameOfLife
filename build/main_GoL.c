@@ -10,7 +10,7 @@
 #define rows 20
 #define cols 20
 //#define init_center 10  //referencia inicial
-#define DELAY 10000*50 //que es¿?¿? --> UN DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
+#define DELAY 1000 //que es¿?¿? --> UN DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
 
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2]);
 void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
@@ -26,11 +26,14 @@ WINDOW *my_win;
 int init_center_x = cols/2;
 int init_center_y = rows/2;
 
+int ch;
+
 int main()
 {    
 	
 	initscr();
 	noecho();
+	cbreak();
 	curs_set(FALSE);
 	
 	my_win = init_window(rows,cols);
@@ -88,6 +91,7 @@ int main()
     //-------------------------------------- programa principal ---------------------------------------------------
     for(int l = 0; true; l++)
     {
+		while (ch = wgetch(my_win) != 'q') {  }
 
         for (int i = 0; i < n_cells; i++) //Per a cada cell viva s'evaluen els neighbours
 
@@ -114,6 +118,8 @@ int main()
 
 
         plot_cells(live_cells_2);
+        
+        while (ch = wgetch(my_win) != 'q') {  }
 
 
         for (int i = 0; i < n_cells_2; i++) //Per a cada cell viva s'evaluen els neighbours
@@ -141,6 +147,7 @@ int main()
         plot_cells(live_cells);
     }
     
+    delwin(my_win);
     endwin(); //que es¿?¿? PER TANCAR EL NCURSES QUAN ACABA TOTA L'EXECUCIÓ
 
     return 0;
