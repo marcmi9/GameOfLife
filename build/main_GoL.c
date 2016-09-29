@@ -13,8 +13,8 @@
  */
 
 
-#define rows 20
-#define cols 20
+#define rows 40
+#define cols 40
 //#define init_center 10  //referencia inicial
 #define DELAY 5000 //que es¿?¿? --> UN DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
 
@@ -22,12 +22,11 @@ void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[row
 void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
 int count_cells(int x, int y, char live_cells[rows+2][cols+2]);
 void draw_cell(int x, int y, int cell_list[rows*cols][2], int *n_cells);
-
 void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n_cells);
 
 void plot_cells(char live_cells[rows+2][cols+2]);
 
-void starting_menu();
+int starting_menu();
 void hints();
 
 
@@ -37,7 +36,7 @@ WINDOW *init_window(int height, int width);
 //------GLOBAL VARIABLES------
 
 WINDOW *window;
-int choice;
+//int choice;
 int init_center_x = cols/2;
 int init_center_y = rows/2;
 int ch; // Character to read from keyboard
@@ -72,38 +71,38 @@ int main()
 	
 	window = init_window(rows,cols);
 
-	starting_menu();
+    int choice = starting_menu();
 
 	if (choice != 4) {
     //------------------------------------ init -----------------------------------------
     
-    cell_list[0][0] = init_center_x;
-    cell_list[0][1] = init_center_y;
+//    cell_list[0][0] = init_center_x;
+//    cell_list[0][1] = init_center_y;
 
-    n_cells++;
+//    n_cells++;
 
-    cell_list[1][0] = init_center_x;
-    cell_list[1][1] = init_center_y+1;
+//    cell_list[1][0] = init_center_x;
+//    cell_list[1][1] = init_center_y+1;
 
-    n_cells++;
+//    n_cells++;
 
-    cell_list[2][0] = init_center_x;
-    cell_list[2][1] = init_center_y-1;
+//    cell_list[2][0] = init_center_x;
+//    cell_list[2][1] = init_center_y-1;
 	
-    n_cells++;
+//    n_cells++;
 
-    cell_list[3][0] = init_center_x-1;
-    cell_list[3][1] = init_center_y;
+//    cell_list[3][0] = init_center_x-1;
+//    cell_list[3][1] = init_center_y;
 
-    n_cells++;
+//    n_cells++;
 
-    cell_list[4][0] = init_center_x+1;
-    cell_list[4][1] = init_center_y;
+//    cell_list[4][0] = init_center_x+1;
+//    cell_list[4][1] = init_center_y;
 
-    n_cells++;
+//    n_cells++;
 	
 	
-	//create_object(init_center_x, init_center_y, choice, cell_list, &n_cells);
+    create_object(init_center_x, init_center_y, choice, cell_list, &n_cells);
 
 	
 	hints();
@@ -115,7 +114,9 @@ int main()
     plot_cells(live_cells);
     
     //-------------------------------------- programa principal ---------------------------------------------------
-    for(int l = 0; true; l++)
+
+    int l, i;
+    for(l = 0; true; l++)
     {
         
         while ((ch = wgetch(window)) != 'd') { 
@@ -126,7 +127,7 @@ int main()
 			}
 		}
 
-        for (int i = 0; i < n_cells; i++) //Per a cada cell viva s'evaluen els neighbours
+        for (i = 0; i < n_cells; i++) //Per a cada cell viva s'evaluen els neighbours
 
         {   //funcio per evaluar si la cell ha de morir o viure, actualitza les matrius
 
@@ -160,7 +161,7 @@ int main()
 		}
 
 
-        for (int i = 0; i < n_cells_2; i++) //Per a cada cell viva s'evaluen els neighbours
+        for (i = 0; i < n_cells_2; i++) //Per a cada cell viva s'evaluen els neighbours
 
         {   //funcio per evaluar si la cell ha de morir o viure, actualitza les matrius
 
@@ -196,9 +197,9 @@ int main()
 
 //-------------------------FUNCTIONS--------------------------//
 
-void starting_menu() {
+int starting_menu() {
 	
-	choice = -1;
+    int choice = -1;
 
     WINDOW *w;
     char list[5][18] = { "Choose a game:", "The R-Pentomino", "Diehard", "Acorn", "Quit" };
@@ -208,7 +209,7 @@ void starting_menu() {
     w = newwin( 8, 20, 1, cols + 10 ); // create a new window
     box( w, 0, 0 ); // sets default borders for the window
     
-    for( i = 0; i < 5; i++ ) {
+    for(i = 0; i < 5; i++ ) {
 		if (i == 1) wattron(w, A_STANDOUT | A_BOLD);
         else if( i == 0 ) 
             wattron( w, A_BOLD ); // highlights the first item.
@@ -254,6 +255,7 @@ void starting_menu() {
  
     delwin( w );
     endwin();
+    return choice;
 	
 }
 
@@ -286,7 +288,8 @@ WINDOW *init_window(int height, int width) {
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2])
 { 
 	//Passa de cell_list a live_cells
-    for (int i = 0; i < *n_cells; i++)
+    int i;
+    for (i = 0; i < *n_cells; i++)
     {
         live_cells[cell_list[i][1]][cell_list[i][0]] = 1;
     }
@@ -343,9 +346,10 @@ void plot_cells(char live_cells[rows+2][cols+2])
 	box(window,0,0);
 	wborder(window, '|', '|', '~', '~', '+', '+', '+', '+');
 	hints();
-    for (int i = 1; i <= rows; i++)
+    int i,j;
+    for (i = 1; i <= rows; i++)
     {
-        for (int j = 1; j <= cols; j++)
+        for (j = 1; j <= cols; j++)
         {
             if (live_cells[j][i] == 1) {
 				mvwprintw(window,j,i,"O"); 
@@ -360,12 +364,12 @@ void draw_cell(int x, int y, int cell_list[rows*cols][2], int *n_cells)
 {
     cell_list[*n_cells][0] = x;
     cell_list[*n_cells][1] = y;
-    *n_cells++;
-
+    (*n_cells)++;
 }
 
 void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n_cells)
 {
+    int k;
     switch(choice)
     {
 		
@@ -446,7 +450,8 @@ void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n
 
         case 7:
 			// 10_cell_row
-            for (int k = 0; k < 10; k++)
+	    
+            for (k = 0; k < 10; k++)
             {
                draw_cell(x+k, y, cell_list, n_cells);
             }
