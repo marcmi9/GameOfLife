@@ -202,11 +202,11 @@ int starting_menu() {
     int choice = -1;
 
     WINDOW *w;
-    char list[5][18] = { "Choose a game:", "The R-Pentomino", "Diehard", "Acorn", "Quit" };
+    char list[5][18] = { "Select (with ->):", "The R-Pentomino", "Diehard", "Acorn", "Quit" };
     char item[18];
     int ch, i = 0;
 
-    w = newwin( 8, 20, 1, cols + 10 ); // create a new window
+    w = newwin( 8, 22, 1, 40 ); // create a new window
     box( w, 0, 0 ); // sets default borders for the window
     
     for(i = 0; i < 5; i++ ) {
