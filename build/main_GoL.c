@@ -89,8 +89,9 @@ int main()
     int l, i;
     for(l = 0; true; l++)
     {
+		keypad( window, TRUE );
         
-        while ((ch = wgetch(window)) != 'd') { 
+        while ((ch = wgetch(window)) != KEY_RIGHT) { 
 			if (ch == 'q') {
 				endwin();
 				return 0;
@@ -123,7 +124,7 @@ int main()
 
         plot_cells(live_cells_2);
         
-        while ((ch = wgetch(window)) != 'd') { 
+        while ((ch = wgetch(window)) != KEY_RIGHT) { 
 			if (ch == 'q') {
 				endwin();
 				return 0;
@@ -235,10 +236,10 @@ void hints() {
 	
     WINDOW *w;
 
-    w = newwin( 4, 25, 1, cols + 10 ); // create a new window
+    w = newwin( 4, 30, 1, cols + 10 ); // create a new window
     box( w, 0, 0 ); // sets default borders for the window
     
-    mvwprintw(w, 1, 2, "Press 'D' to advance");
+    mvwprintw(w, 1, 2, "Press 'RIGHT' to advance");
     mvwprintw(w, 2, 2, "Press 'Q' to quit");
     //mvwprintw(w, 3, 2, "Press 'R' to return");
 	
