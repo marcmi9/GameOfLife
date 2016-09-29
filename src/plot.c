@@ -1,4 +1,5 @@
 #include <ncurses.h>
+
 #define DELAY 5000  //DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
 
 //---------------------------------GLOBAL VARIABLES-----------------------------------
@@ -123,9 +124,9 @@ void plot_cells(char live_cells[rows+margin][cols+margin])
 
 void wait_for_next_key(int key)
 {
+	keypad(window, TRUE);
     while ((ch = wgetch(window)) != key) {
         if (ch == 'q') {
-            endwin();
             break;
         }
     }

@@ -7,7 +7,7 @@
 #define rows 40
 #define cols 80
 
-#define margin 8    //MUST BE AN EVEN NUMBER!!!!!!!!!!**************
+#define margin 100    //MUST BE AN EVEN NUMBER!!!!!!!!!!**************
 
 #define init_center_x (rows+margin)/2
 #define init_center_y (cols+margin)/2

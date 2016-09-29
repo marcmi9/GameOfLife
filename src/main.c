@@ -33,6 +33,7 @@ int main()
     noecho();
     cbreak();
     curs_set(FALSE);
+    
 
     window = init_window(rows,cols);
 
@@ -53,18 +54,27 @@ int main()
         int l;
         for(l = 0; true; l++)
         {
+			keypad(window, TRUE); // No sé on es posa, si ho posem fora no funciona... millor deixar-ho per aquí
 
-            keypad( window, TRUE ); // Aixo ha de estar dins el for?
-
-            wait_for_next_key(KEY_RIGHT);
+			while ((ch = wgetch(window)) != KEY_RIGHT) {
+				if (ch == 'q') {
+					endwin();
+					return 0;
+				}
+			}
 
             next_state(cell_list,   &n_cells,   live_cells, checked_cells,
-                       cell_list_2, &n_cells_2, live_cells_2);
+                       cell_list_2, &n_cells_2, live_cells_2); // Per què li passem &n_cells també, si no ho fa servir?
 
 
             plot_cells(live_cells_2);
 
-            wait_for_next_key(KEY_RIGHT);
+			while ((ch = wgetch(window)) != KEY_RIGHT) {
+				if (ch == 'q') {
+					endwin();
+					return 0;
+				}
+			}
 
             next_state(cell_list_2, &n_cells_2, live_cells_2, checked_cells,
                        cell_list,   &n_cells,   live_cells);
