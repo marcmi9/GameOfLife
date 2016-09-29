@@ -6,23 +6,22 @@
 
 // X CAP A BAIX, Y CAP A LA DRETA!
 
-/* COSES QUE FALTEN:
- * - Si el número de cols i rows és diferent la meitat del dibuix no es veu! per què?
- */
 
 
-#define rows 80
+
+#define rows 40
 #define cols 80	
 #define DELAY 5000 //que es¿?¿? --> UN DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
+#define margin 1000
 
-void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2]);
-void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
-int count_cells(int x, int y, char live_cells[rows+2][cols+2]);
+void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+margin][cols+margin]);
+void check_cell(int x, int y, char live_cells[rows+margin][cols+margin], char checked_cells[rows+margin][cols+margin], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+margin][cols+margin]);
+int count_cells(int x, int y, char live_cells[rows+margin][cols+margin]);
 
 void draw_cell(int x, int y, int cell_list[rows*cols][2], int *n_cells);
 void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n_cells);
 
-void plot_cells(char live_cells[rows+2][cols+2]);
+void plot_cells(char live_cells[rows+margin][cols+margin]);
 
 int starting_menu();
 void hints();
@@ -34,8 +33,8 @@ WINDOW *init_window(int height, int width);
 //------GLOBAL VARIABLES------
 
 WINDOW *window;
-int init_center_x = rows/2;
-int init_center_y = cols/2;
+int init_center_x = (rows+margin)/2;
+int init_center_y = (cols+margin)/2;
 int ch; // Character to read from keyboard
 
 //------MAIN PROGRAM---------
@@ -52,14 +51,14 @@ int main()
     int n_cells = 0; //Numero de celules vives, es el tamany de cell_list
     int n_cells_2 = 0;
 
-    char live_cells[rows+2][cols+2]; // matriu on es mostren les cells vives, la grid
-    memset(live_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+    char live_cells[rows+margin][cols+margin]; // matriu on es mostren les cells vives, la grid
+    memset(live_cells,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
 
-    char live_cells_2[rows+2][cols+2]; // matriu on es mostren les cells vives
-    memset(live_cells_2,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+    char live_cells_2[rows+margin][cols+margin]; // matriu on es mostren les cells vives
+    memset(live_cells_2,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
 
-    char checked_cells[rows+2][cols+2]; // matriu on es mostren les cells comprobades, siguin vives o mortes
-    memset(checked_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+    char checked_cells[rows+margin][cols+margin]; // matriu on es mostren les cells comprobades, siguin vives o mortes
+    memset(checked_cells,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
 	
 	initscr();
 	noecho();
@@ -117,8 +116,8 @@ int main()
         memset(cell_list,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0 
         n_cells = 0;
 
-        memset(live_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
-        memset(checked_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+        memset(live_cells,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
+        memset(checked_cells,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
 
 
 
@@ -151,8 +150,8 @@ int main()
         memset(cell_list_2,0,sizeof(int)*(rows)*(cols)*2); //inicialitzem a 0
         n_cells_2 = 0;
 
-        memset(live_cells_2,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
-        memset(checked_cells,0,sizeof(char)*(rows+2)*(cols+2)); //inicialitzem a 0
+        memset(live_cells_2,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
+        memset(checked_cells,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
 
         plot_cells(live_cells);
     }
@@ -259,7 +258,7 @@ WINDOW *init_window(int height, int width) {
 	return wind;
 }
 
-void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2])
+void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+margin][cols+margin])
 { 
 	//Passa de cell_list a live_cells
     int i;
@@ -269,7 +268,7 @@ void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[row
     }
 }
 
-void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2])
+void check_cell(int x, int y, char live_cells[rows+margin][cols+margin], char checked_cells[rows+margin][cols+margin], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+margin][cols+margin])
 {
 
 
@@ -279,7 +278,7 @@ void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cell
     {
         checked_cells[x][y] = 1;
 
-        if ( x != 0 && y != 0 && x != cols + 1 && y != rows + 1) //Limits de la quadricula
+        if ( x != 0 && y != 0 && x != rows + margin - 1 && y != cols + margin - 1 ) //Limits de la quadricula
         {
             neighbours = count_cells(x,y, live_cells);
 
@@ -300,7 +299,7 @@ void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cell
 
 }
 
-int count_cells(int x, int y, char live_cells[rows+2][cols+2])
+int count_cells(int x, int y, char live_cells[rows+margin][cols+margin])
 {
     return  live_cells[x-1][y-1]    +
             live_cells[x][y-1]      +
@@ -314,23 +313,25 @@ int count_cells(int x, int y, char live_cells[rows+2][cols+2])
             live_cells[x+1][y+1];
 }
 
-void plot_cells(char live_cells[rows+2][cols+2])
+void plot_cells(char live_cells[rows+margin][cols+margin])
 {
 	wclear(window);
 	box(window,0,0);
 	wborder(window, '|', '|', '~', '~', '+', '+', '+', '+');
 	hints();
     int i,j;
-    for (i = 1; i <= rows; i++)
+    for (i = 1; i < rows + margin; i++)
     {
-        for (j = 1; j <= cols; j++)
+        for (j = 1; j < cols + margin; j++)
         {
-            if (live_cells[i][j] == 1) {
-				mvwprintw(window,i,j,"O"); 
+            if (live_cells[i][j] == 1 && (i > margin/2 && i < rows + margin/2) && (j > margin/2 && j < cols + margin/2)) {
+				mvwprintw(window,i - margin/2,j - margin/2,"O"); 
+				
 			}
         }
     }
-    refresh();
+    //mvwprintw(window, 10, cols - 10, "Hola");
+    wrefresh(window);
     usleep(DELAY); 
 }
 
