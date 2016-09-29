@@ -16,7 +16,7 @@ int starting_menu() {
     WINDOW *w;
     char list[12][18] = { "SELECT (WITH ->):", "The R-Pentomino", "Diehard", "Acorn", "Glider", "Small Exploder", "Exploder", "10_cell_row", "Spaceship", "Tumbler", "Glider Gun", "QUIT" };
     char item[18];
-    int ch, i = 0;
+    int i = 0;
 
     w = newwin( 14, 22, 1, 40 ); // create a new window
     box( w, 0, 0 ); // sets default borders for the window
