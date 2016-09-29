@@ -235,12 +235,12 @@ void hints() {
 	
     WINDOW *w;
 
-    w = newwin( 5, 25, 1, cols + 10 ); // create a new window
+    w = newwin( 4, 25, 1, cols + 10 ); // create a new window
     box( w, 0, 0 ); // sets default borders for the window
     
     mvwprintw(w, 1, 2, "Press 'D' to advance");
     mvwprintw(w, 2, 2, "Press 'Q' to quit");
-    mvwprintw(w, 3, 2, "Press 'R' to return");
+    //mvwprintw(w, 3, 2, "Press 'R' to return");
 	
 	wrefresh(w);
 	refresh();
