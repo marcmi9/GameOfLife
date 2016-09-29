@@ -9,13 +9,11 @@
 /* COSES QUE FALTEN:
  * - Canviar eixos X per Y.
  * - Si canviem numero de cols de 20 a 40 (per exemple) la meitat del dibuix no es veu! per què?
- * - Arreglar les funcions_init del Jordan (les he posat en aquest arxiu, per no liar-la)
  */
 
 
 #define rows 40
 #define cols 40
-//#define init_center 10  //referencia inicial
 #define DELAY 5000 //que es¿?¿? --> UN DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
 
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2]);
@@ -73,7 +71,7 @@ int main()
 
     int choice = starting_menu();
 
-	if (choice != 4) {
+	if (choice != 11) {
     //------------------------------------ init -----------------------------------------
     
 //    cell_list[0][0] = init_center_x;
@@ -202,14 +200,14 @@ int starting_menu() {
     int choice = -1;
 
     WINDOW *w;
-    char list[5][18] = { "Select (with ->):", "The R-Pentomino", "Diehard", "Acorn", "Quit" };
+    char list[12][18] = { "Select (with ->):", "The R-Pentomino", "Diehard", "Acorn", "Glider", "Small Exploder", "Exploder", "10_cell_row", "Spaceship", "Tumbler", "Glider Gun", "Quit" };
     char item[18];
     int ch, i = 0;
 
-    w = newwin( 8, 22, 1, 40 ); // create a new window
+    w = newwin( 14, 22, 1, 40 ); // create a new window
     box( w, 0, 0 ); // sets default borders for the window
     
-    for(i = 0; i < 5; i++ ) {
+    for(i = 0; i < 12; i++ ) {
 		if (i == 1) wattron(w, A_STANDOUT | A_BOLD);
         else if( i == 0 ) 
             wattron( w, A_BOLD ); // highlights the first item.
@@ -235,11 +233,11 @@ int starting_menu() {
             switch( ch ) {
                 case KEY_UP:
 					i--;
-					if (i < 1) i = 4;
+					if (i < 1) i = 11;
 					break;
                 case KEY_DOWN:
 					i++;
-					if (i > 4) i = 1;
+					if (i > 11) i = 1;
 					break;
 				case KEY_RIGHT:
 					choice = i;
@@ -255,6 +253,7 @@ int starting_menu() {
  
     delwin( w );
     endwin();
+    
     return choice;
 	
 }
