@@ -13,12 +13,13 @@
 
 
 #define rows 40
-#define cols 40
+#define cols 40	
 #define DELAY 5000 //que es¿?¿? --> UN DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
 
 void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[rows+2][cols+2]);
 void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cells[rows+2][cols+2], int cell_list_2[rows*cols][2], int * n_cells_2 ,char live_cells_2[rows+2][cols+2]);
 int count_cells(int x, int y, char live_cells[rows+2][cols+2]);
+
 void draw_cell(int x, int y, int cell_list[rows*cols][2], int *n_cells);
 void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n_cells);
 
@@ -34,9 +35,8 @@ WINDOW *init_window(int height, int width);
 //------GLOBAL VARIABLES------
 
 WINDOW *window;
-//int choice;
-int init_center_x = cols/2;
-int init_center_y = rows/2;
+int init_center_x = rows/2;
+int init_center_y = cols/2;
 int ch; // Character to read from keyboard
 
 //------MAIN PROGRAM---------
@@ -72,33 +72,7 @@ int main()
     int choice = starting_menu();
 
 	if (choice != 11) {
-    //------------------------------------ init -----------------------------------------
-    
-//    cell_list[0][0] = init_center_x;
-//    cell_list[0][1] = init_center_y;
-
-//    n_cells++;
-
-//    cell_list[1][0] = init_center_x;
-//    cell_list[1][1] = init_center_y+1;
-
-//    n_cells++;
-
-//    cell_list[2][0] = init_center_x;
-//    cell_list[2][1] = init_center_y-1;
-	
-//    n_cells++;
-
-//    cell_list[3][0] = init_center_x-1;
-//    cell_list[3][1] = init_center_y;
-
-//    n_cells++;
-
-//    cell_list[4][0] = init_center_x+1;
-//    cell_list[4][1] = init_center_y;
-
-//    n_cells++;
-	
+    //------------------------------------ init -----------------------------------------	
 	
     create_object(init_center_x, init_center_y, choice, cell_list, &n_cells);
 
@@ -121,7 +95,6 @@ int main()
 			if (ch == 'q') {
 				endwin();
 				return 0;
-				//break;
 			}
 		}
 
@@ -290,7 +263,7 @@ void store_cells(int cell_list[rows*cols][2], int * n_cells, char live_cells[row
     int i;
     for (i = 0; i < *n_cells; i++)
     {
-        live_cells[cell_list[i][1]][cell_list[i][0]] = 1;
+        live_cells[cell_list[i][0]][cell_list[i][1]] = 1;
     }
 }
 
@@ -300,17 +273,17 @@ void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cell
 
     int neighbours;
 
-    if (!checked_cells[y][x])
+    if (!checked_cells[x][y])
     {
-        checked_cells[y][x] = 1;
+        checked_cells[x][y] = 1;
 
         if ( x != 0 && y != 0 && x != cols + 1 && y != rows + 1) //Limits de la quadricula
         {
             neighbours = count_cells(x,y, live_cells);
 
-            if (neighbours == 3 || (neighbours == 2 && live_cells[y][x]))
+            if (neighbours == 3 || (neighbours == 2 && live_cells[x][y]))
             {
-                live_cells_2[y][x] = 1;
+                live_cells_2[x][y] = 1;
 
                 cell_list_2[*n_cells_2][0] = x;
                 cell_list_2[*n_cells_2][1] = y;
@@ -327,16 +300,16 @@ void check_cell(int x, int y, char live_cells[rows+2][cols+2], char checked_cell
 
 int count_cells(int x, int y, char live_cells[rows+2][cols+2])
 {
-    return  live_cells[y-1][x-1]    +
-            live_cells[y-1][x]      +
-            live_cells[y-1][x+1]    +
+    return  live_cells[x-1][y-1]    +
+            live_cells[x][y-1]      +
+            live_cells[x+1][y-1]    +
 
-            live_cells[y][x-1]      +
-            live_cells[y][x+1]      +
+            live_cells[x-1][y]      +
+            live_cells[x+1][y]      +
 
-            live_cells[y+1][x-1]    +
-            live_cells[y+1][x]      +
-            live_cells[y+1][x+1];
+            live_cells[x-1][y+1]    +
+            live_cells[x][y+1]      +
+            live_cells[x+1][y+1];
 }
 
 void plot_cells(char live_cells[rows+2][cols+2])
@@ -350,8 +323,8 @@ void plot_cells(char live_cells[rows+2][cols+2])
     {
         for (j = 1; j <= cols; j++)
         {
-            if (live_cells[j][i] == 1) {
-				mvwprintw(window,j,i,"O"); 
+            if (live_cells[i][j] == 1) {
+				mvwprintw(window,i,j,"O"); 
 			}
         }
     }
@@ -374,129 +347,128 @@ void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n
 		
 		case 1:
 			// r_pentomino
+            draw_cell(x  , y  , cell_list, n_cells);
             draw_cell(x+1, y  , cell_list, n_cells);
-            draw_cell(x+2, y  , cell_list, n_cells);
-            draw_cell(x  , y+1, cell_list, n_cells);
-            draw_cell(x+1, y+1, cell_list, n_cells);
-            draw_cell(x+1, y+2, cell_list, n_cells);
+            draw_cell(x  , y-1, cell_list, n_cells);
+            draw_cell(x-1, y  , cell_list, n_cells);
+            draw_cell(x-1, y+1, cell_list, n_cells);
 
         break;
 
         case 2:
 			// diehard
-            draw_cell(x  , y+1, cell_list, n_cells);
-            draw_cell(x+1, y+1, cell_list, n_cells);
+            draw_cell(x  , y-2, cell_list, n_cells);
+            draw_cell(x  , y-3, cell_list, n_cells);
+            draw_cell(x+1, y-2, cell_list, n_cells);
+
+            draw_cell(x-1, y+3, cell_list, n_cells);
+
             draw_cell(x+1, y+2, cell_list, n_cells);
-
-            draw_cell(x+6, y  , cell_list, n_cells);
-
-            draw_cell(x+5, y+2, cell_list, n_cells);
-            draw_cell(x+6, y+2, cell_list, n_cells);
-            draw_cell(x+7, y+2, cell_list, n_cells);
+            draw_cell(x+1, y+3, cell_list, n_cells);
+            draw_cell(x+1, y+4, cell_list, n_cells);
 
 
         break;
 
         case 3:
 			// acorn
-            draw_cell(x+1, y  , cell_list, n_cells);
-            draw_cell(x+3, y+1, cell_list, n_cells);
+            draw_cell(x  , y  , cell_list, n_cells);
+            draw_cell(x  , y+1, cell_list, n_cells);
 
-            draw_cell(x  , y+2, cell_list, n_cells);
-            draw_cell(x+1, y+2, cell_list, n_cells);
-            draw_cell(x+4, y+2, cell_list, n_cells);
-            draw_cell(x+5, y+2, cell_list, n_cells);
-            draw_cell(x+6, y+2, cell_list, n_cells);
+            draw_cell(x-2, y+1, cell_list, n_cells);
+            draw_cell(x-1, y+3, cell_list, n_cells);
+            draw_cell(x  , y+4, cell_list, n_cells);
+            draw_cell(x  , y+5, cell_list, n_cells);
+            draw_cell(x  , y+6, cell_list, n_cells);
 
         break;
         case 4:
 			// glider
-            draw_cell(x+1,   y, cell_list, n_cells);
-            draw_cell(x+2, y+1, cell_list, n_cells);
-            draw_cell(x,   y+2, cell_list, n_cells);
-            draw_cell(x+1, y+2, cell_list, n_cells);
-            draw_cell(x+2, y+2, cell_list, n_cells);
+            draw_cell(x-1, y  , cell_list, n_cells);
+            draw_cell(x  , y+1, cell_list, n_cells);
+            draw_cell(x+1, y+1, cell_list, n_cells);
+            draw_cell(x+1, y  , cell_list, n_cells);
+            draw_cell(x+1, y-1, cell_list, n_cells);
 
         break;
 
         case 5:
 			// small_exploder
-            draw_cell(x+1,   y, cell_list, n_cells);
-            draw_cell(x,   y+1, cell_list, n_cells);
-            draw_cell(x+1, y+1, cell_list, n_cells);
-            draw_cell(x+2, y+1, cell_list, n_cells);
-            draw_cell(x,   y+2, cell_list, n_cells);
-            draw_cell(x+2, y+2, cell_list, n_cells);
-            draw_cell(x+1, y+3, cell_list, n_cells);
+            draw_cell(x+1, y  , cell_list, n_cells);
+            draw_cell(x  , y-1, cell_list, n_cells);
+            draw_cell(x-1, y-1, cell_list, n_cells);
+            draw_cell(x-1, y  , cell_list, n_cells);
+            draw_cell(x-2, y  , cell_list, n_cells);
+            draw_cell(x-1, y+1, cell_list, n_cells);
+            draw_cell(x  , y+1, cell_list, n_cells);
 
         break;
 
         case 6:
 			// exploder
-            draw_cell(x  , y  , cell_list, n_cells);
-            draw_cell(x+2, y  , cell_list, n_cells);
-            draw_cell(x+4, y  , cell_list, n_cells);
-            draw_cell(x  , y+1, cell_list, n_cells);
+            draw_cell(x-2, y  , cell_list, n_cells);
+            draw_cell(x-2, y+2, cell_list, n_cells);
+            draw_cell(x-1, y+2, cell_list, n_cells);
             draw_cell(x  , y+2, cell_list, n_cells);
-            draw_cell(x  , y+3, cell_list, n_cells);
-            draw_cell(x  , y+4, cell_list, n_cells);
-            draw_cell(x+4, y+1, cell_list, n_cells);
-            draw_cell(x+4, y+2, cell_list, n_cells);
-            draw_cell(x+4, y+3, cell_list, n_cells);
-            draw_cell(x+4, y+4, cell_list, n_cells);
+            draw_cell(x+1, y+2, cell_list, n_cells);
+            draw_cell(x+2, y+2, cell_list, n_cells);
+            draw_cell(x+2, y  , cell_list, n_cells);
+            draw_cell(x+2, y-2, cell_list, n_cells);
+            draw_cell(x+1, y-2, cell_list, n_cells);
+            draw_cell(x  , y-2, cell_list, n_cells);
+            draw_cell(x-1, y-2, cell_list, n_cells);
+            draw_cell(x-2, y-2, cell_list, n_cells);
 
         break;
 
         case 7:
 			// 10_cell_row
-	    
-            for (k = 0; k < 10; k++)
+            for (k = -5; k < 5; k++)
             {
-               draw_cell(x+k, y, cell_list, n_cells);
+               draw_cell(x, y + k, cell_list, n_cells);
             }
 
         break;
 
         case 8:
 			// spaceship
-            draw_cell(x+1, y  , cell_list, n_cells);
-            draw_cell(x+2, y  , cell_list, n_cells);
-            draw_cell(x+3, y  , cell_list, n_cells);
-            draw_cell(x+4, y  , cell_list, n_cells);
-            draw_cell(x  , y+1, cell_list, n_cells);
-            draw_cell(x+4, y+1, cell_list, n_cells);
-            draw_cell(x+4, y+2, cell_list, n_cells);
-            draw_cell(x  , y+3, cell_list, n_cells);
-            draw_cell(x+3, y+3, cell_list, n_cells);
+            draw_cell(x+1, y+1, cell_list, n_cells);
+            draw_cell(x  , y+2, cell_list, n_cells);
+            draw_cell(x-1, y+2, cell_list, n_cells);
+            draw_cell(x-2, y+2, cell_list, n_cells);
+            draw_cell(x-2, y+1, cell_list, n_cells);
+            draw_cell(x-2, y  , cell_list, n_cells);
+            draw_cell(x-2, y-1, cell_list, n_cells);
+            draw_cell(x-1, y-2, cell_list, n_cells);
+            draw_cell(x+1, y-2, cell_list, n_cells);
 
         break;
 
         case 9:
 			// tumbler
-            draw_cell(x+1, y  , cell_list, n_cells);
-            draw_cell(x+2, y  , cell_list, n_cells);
-            draw_cell(x+4, y  , cell_list, n_cells);
-            draw_cell(x+5, y  , cell_list, n_cells);
+            draw_cell(x-2, y+1, cell_list, n_cells);
+            draw_cell(x-2, y+2, cell_list, n_cells);
+            draw_cell(x-1, y+1, cell_list, n_cells);
+            draw_cell(x-1, y+2, cell_list, n_cells);
+            draw_cell(x  , y+1, cell_list, n_cells);
             draw_cell(x+1, y+1, cell_list, n_cells);
             draw_cell(x+2, y+1, cell_list, n_cells);
-            draw_cell(x+4, y+1, cell_list, n_cells);
-            draw_cell(x+5, y+1, cell_list, n_cells);
-            draw_cell(x+2, y+2, cell_list, n_cells);
-            draw_cell(x+4, y+2, cell_list, n_cells);
+            draw_cell(x+3, y+2, cell_list, n_cells);
+            draw_cell(x+3, y+3, cell_list, n_cells);
             draw_cell(x+2, y+3, cell_list, n_cells);
-            draw_cell(x+4, y+3, cell_list, n_cells);
-            draw_cell(x+2, y+4, cell_list, n_cells);
-            draw_cell(x+4, y+4, cell_list, n_cells);
-
-            draw_cell(x  , y+3, cell_list, n_cells);
-            draw_cell(x+6, y+3, cell_list, n_cells);
-            draw_cell(x  , y+4, cell_list, n_cells);
-            draw_cell(x+6, y+4, cell_list, n_cells);
-            draw_cell(x  , y+5, cell_list, n_cells);
-            draw_cell(x+6, y+5, cell_list, n_cells);
-
-            draw_cell(x+1, y+5, cell_list, n_cells);
-            draw_cell(x+5, y+5, cell_list, n_cells);
+            draw_cell(x+1, y+3, cell_list, n_cells);
+            
+            draw_cell(x-2, y-1, cell_list, n_cells);
+            draw_cell(x-2, y-2, cell_list, n_cells);
+            draw_cell(x-1, y-1, cell_list, n_cells);
+            draw_cell(x-1, y-2, cell_list, n_cells);
+            draw_cell(x  , y-1, cell_list, n_cells);
+            draw_cell(x+1, y-1, cell_list, n_cells);
+            draw_cell(x+2, y-1, cell_list, n_cells);
+            draw_cell(x+3, y-2, cell_list, n_cells);
+            draw_cell(x+3, y-3, cell_list, n_cells);
+            draw_cell(x+2, y-3, cell_list, n_cells);
+            draw_cell(x+1, y-3, cell_list, n_cells);
 
 
         break;
