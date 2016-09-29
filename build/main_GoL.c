@@ -477,47 +477,47 @@ void create_object(int x, int y, int choice, int cell_list[rows*cols][2], int *n
         case 10:
         
 			// glider_gun
-            draw_cell(x  , y+2, cell_list, n_cells);
-            draw_cell(x  , y+2, cell_list, n_cells);
-            draw_cell(x+1, y+3, cell_list, n_cells);
-            draw_cell(x+1, y+3, cell_list, n_cells);
+            draw_cell(x-3, y-19, cell_list, n_cells);
+            draw_cell(x-3, y-18, cell_list, n_cells);
+            draw_cell(x-2, y-19, cell_list, n_cells);
+            draw_cell(x-2, y-18, cell_list, n_cells);
 
-            draw_cell(x+9 , y+2, cell_list, n_cells);
-            draw_cell(x+10, y+2, cell_list, n_cells);
-            draw_cell(x+8, y+3, cell_list, n_cells);
-            draw_cell(x+10, y+3, cell_list, n_cells);
-            draw_cell(x+8, y+4, cell_list, n_cells);
-            draw_cell(x+9, y+4, cell_list, n_cells);
+            draw_cell(x-3, y-10, cell_list, n_cells);
+            draw_cell(x-3, y-9, cell_list, n_cells);
+            draw_cell(x-2, y-11, cell_list, n_cells);
+            draw_cell(x-2, y-9, cell_list, n_cells);
+            draw_cell(x-1, y-11, cell_list, n_cells);
+            draw_cell(x-1, y-10, cell_list, n_cells);
 
-            draw_cell(x+16, y+4, cell_list, n_cells);
-            draw_cell(x+17, y+4, cell_list, n_cells);
-            draw_cell(x+16, y+5, cell_list, n_cells);
-            draw_cell(x+18, y+5, cell_list, n_cells);
-            draw_cell(x+16, y+6, cell_list, n_cells);
+            draw_cell(x-1, y-3, cell_list, n_cells);
+            draw_cell(x-1, y-2, cell_list, n_cells);
+            draw_cell(x  , y-3, cell_list, n_cells);
+            draw_cell(x  , y-1, cell_list, n_cells);
+            draw_cell(x+1, y-3, cell_list, n_cells);
 
-            draw_cell(x+23 , y, cell_list, n_cells);
-            draw_cell(x+24, y, cell_list, n_cells);
-            draw_cell(x+22, y+1, cell_list, n_cells);
-            draw_cell(x+24, y+1, cell_list, n_cells);
-            draw_cell(x+22, y+2, cell_list, n_cells);
-            draw_cell(x+23, y+2, cell_list, n_cells);
+            draw_cell(x-5, y+4, cell_list, n_cells);
+            draw_cell(x-5, y+5, cell_list, n_cells);
+            draw_cell(x-4, y+3, cell_list, n_cells);
+            draw_cell(x-4, y+5, cell_list, n_cells);
+            draw_cell(x-3, y+3, cell_list, n_cells);
+            draw_cell(x-3, y+4, cell_list, n_cells);
 
-            draw_cell(x+24, y+12, cell_list, n_cells);
-            draw_cell(x+25, y+12, cell_list, n_cells);
-            draw_cell(x+26, y+12, cell_list, n_cells);
-            draw_cell(x+24, y+13, cell_list, n_cells);
-            draw_cell(x+25, y+14, cell_list, n_cells);
+            draw_cell(x+7, y+5, cell_list, n_cells);
+            draw_cell(x+7, y+6, cell_list, n_cells);
+            draw_cell(x+7, y+7, cell_list, n_cells);
+            draw_cell(x+8, y+5, cell_list, n_cells);
+            draw_cell(x+9, y+6, cell_list, n_cells);
 
-            draw_cell(x+34, y  , cell_list, n_cells);
-            draw_cell(x+34, y  , cell_list, n_cells);
-            draw_cell(x+35, y+1, cell_list, n_cells);
-            draw_cell(x+35, y+1, cell_list, n_cells);
+            draw_cell(x-5, y+15, cell_list, n_cells);
+            draw_cell(x-5, y+16, cell_list, n_cells);
+            draw_cell(x-4, y+15, cell_list, n_cells);
+            draw_cell(x-4, y+16, cell_list, n_cells);
 
-            draw_cell(x+35, y+7, cell_list, n_cells);
-            draw_cell(x+36, y+7, cell_list, n_cells);
-            draw_cell(x+35, y+8, cell_list, n_cells);
-            draw_cell(x+37, y+8, cell_list, n_cells);
-            draw_cell(x+35, y+9, cell_list, n_cells);
+            draw_cell(x+2, y+16, cell_list, n_cells);
+            draw_cell(x+2, y+17, cell_list, n_cells);
+            draw_cell(x+3, y+16, cell_list, n_cells);
+            draw_cell(x+3, y+18, cell_list, n_cells);
+            draw_cell(x+4, y+16, cell_list, n_cells);
 		
         break;
         
