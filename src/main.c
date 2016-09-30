@@ -42,33 +42,40 @@ int main()
 
     if (choice != 11) {
     //------------------------------------ init -----------------------------------------	
-	
+        unsigned long iter = 0;
+
         create_object(init_center_x, init_center_y, choice, cell_list, &n_cells, live_cells);
 
         hints();
 
+        print_iter(iter);
         plot_cells(live_cells);
 
         //----------------------------------------------- programa principal ---------------------------------------------------
 
-        int l;
-        for(l = 0; true; l++)
+
+        char exit_flag = 0;
+
+        while(!exit_flag)
         {
             keypad(window, TRUE); // No sé on es posa, si ho posem fora no funciona... millor deixar-ho per aquí
 
-            wait_for_next_key(KEY_RIGHT);
+            wait_for_next_key(KEY_RIGHT, &exit_flag);
+            if (exit_flag) break;
 
             next_state(cell_list,   &n_cells,   live_cells, checked_cells,
                        cell_list_2, &n_cells_2, live_cells_2); // Per què li passem &n_cells també, si no ho fa servir? --> Si que ho fa servir!
 
+            print_iter(++iter);
 
             plot_cells(live_cells_2);
 
-            wait_for_next_key(KEY_RIGHT);
+            wait_for_next_key(KEY_RIGHT, &exit_flag);
 
             next_state(cell_list_2, &n_cells_2, live_cells_2, checked_cells,
                        cell_list,   &n_cells,   live_cells);
 
+            print_iter(++iter);
 
             plot_cells(live_cells);
         }

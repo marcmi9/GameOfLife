@@ -24,7 +24,7 @@ void check_cell(int x, int y, char live_cells[rows+margin][cols+margin], char ch
     {
         checked_cells[x][y] = 1;
 
-        if ( x != 0 && y != 0 && x != rows + margin - 1 && y != cols + margin - 1 ) //Limits de la quadricula
+        if ( x != 0 && y != 0 && x != rows + margin - 1 && y != cols + margin - 1 ) //Limits de la quadricula (incloent el margin)
         {
             neighbours = count_cells(x,y, live_cells);
 

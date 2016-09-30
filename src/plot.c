@@ -1,6 +1,6 @@
 #include <ncurses.h>
 
-#define DELAY 5000  //DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT
+#define DELAY 200  //DELAY PERQUÈ NO S'EXECUTI TOT INSTANTÀNIAMENT (del print)
 
 //---------------------------------GLOBAL VARIABLES-----------------------------------
 
@@ -82,11 +82,25 @@ void hints() {
     
     mvwprintw(w, 1, 2, "Press 'RIGHT' to advance");
     mvwprintw(w, 2, 2, "Press 'Q' to quit");
-    //mvwprintw(w, 3, 2, "Press 'R' to return");
+    //mvwprintw(w, 3, 2, "Iterations: %lu",10);
 	
     wrefresh(w);
     refresh();
 	
+}
+
+void print_iter(unsigned long iter) {
+
+    WINDOW *w;
+
+    w = newwin( 3, 30, 5, cols + 10 ); // create a new window
+    box( w, 0, 0 ); // sets default borders for the window
+
+    mvwprintw(w, 1, 1, "Iterations: %lu",iter);
+
+    wrefresh(w);
+    refresh();
+
 }
 
 
@@ -122,11 +136,12 @@ void plot_cells(char live_cells[rows+margin][cols+margin])
     usleep(DELAY); 
 }
 
-void wait_for_next_key(int key)
+void wait_for_next_key(int key, char * exit_flag)
 {
-	keypad(window, TRUE);
+    //keypad(window, TRUE);
     while ((ch = wgetch(window)) != key) {
         if (ch == 'q') {
+            *exit_flag = 1;
             break;
         }
     }
