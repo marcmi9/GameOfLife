@@ -46,30 +46,30 @@ void check_cell(int x, int y, char live_cells[rows+margin][cols+margin], char ch
 }
 
 
-void next_state(int cell_list[(rows+margin)*(cols+margin)][2], int *n_cell1, char live_cells[rows+margin][cols+margin],
+void next_state(int cell_list[(rows+margin)*(cols+margin)][2], int *n_cells, char live_cells[rows+margin][cols+margin],
                char checked_cells[rows+margin][cols+margin],
-                int cell_list_2[(rows+margin)*(cols+margin)][2], int *n_cell2, char live_cells_2[rows+margin][cols+margin])
+                int cell_list_2[(rows+margin)*(cols+margin)][2], int *n_cells_2, char live_cells_2[rows+margin][cols+margin])
 {
     int i = 0;
 
-    for (i = 0; i < *n_cell1; i++) //Per a cada cell viva s'evaluen els neighbours
+    for (i = 0; i < *n_cells; i++) //Per a cada cell viva s'evaluen els neighbours
 
     {   //funcio per evaluar si la cell ha de morir o viure, actualitza les matrius
 
-        check_cell(cell_list[i][0]-1,   cell_list[i][1]-1,  live_cells, checked_cells, cell_list_2, n_cell2, live_cells_2);
-        check_cell(cell_list[i][0],     cell_list[i][1]-1,  live_cells, checked_cells, cell_list_2, n_cell2, live_cells_2);
-        check_cell(cell_list[i][0]+1,   cell_list[i][1]-1,  live_cells, checked_cells, cell_list_2, n_cell2, live_cells_2);
+        check_cell(cell_list[i][0]-1,   cell_list[i][1]-1,  live_cells, checked_cells, cell_list_2, n_cells_2, live_cells_2);
+        check_cell(cell_list[i][0],     cell_list[i][1]-1,  live_cells, checked_cells, cell_list_2, n_cells_2, live_cells_2);
+        check_cell(cell_list[i][0]+1,   cell_list[i][1]-1,  live_cells, checked_cells, cell_list_2, n_cells_2, live_cells_2);
 
-        check_cell(cell_list[i][0]-1,   cell_list[i][1],    live_cells, checked_cells, cell_list_2, n_cell2, live_cells_2);
-        check_cell(cell_list[i][0]+1,   cell_list[i][1],    live_cells, checked_cells, cell_list_2, n_cell2, live_cells_2);
+        check_cell(cell_list[i][0]-1,   cell_list[i][1],    live_cells, checked_cells, cell_list_2, n_cells_2, live_cells_2);
+        check_cell(cell_list[i][0]+1,   cell_list[i][1],    live_cells, checked_cells, cell_list_2, n_cells_2, live_cells_2);
 
-        check_cell(cell_list[i][0]-1,   cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, n_cell2, live_cells_2);
-        check_cell(cell_list[i][0],     cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, n_cell2, live_cells_2);
-        check_cell(cell_list[i][0]+1,   cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, n_cell2, live_cells_2);
+        check_cell(cell_list[i][0]-1,   cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, n_cells_2, live_cells_2);
+        check_cell(cell_list[i][0],     cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, n_cells_2, live_cells_2);
+        check_cell(cell_list[i][0]+1,   cell_list[i][1]+1,  live_cells, checked_cells, cell_list_2, n_cells_2, live_cells_2);
     }
 
     memset(cell_list,0,sizeof(int)*(rows+margin)*(cols+margin)*2); //inicialitzem a 0
-    *n_cell1 = 0;
+    *n_cells = 0;
 
     memset(live_cells,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
     memset(checked_cells,0,sizeof(char)*(rows+margin)*(cols+margin)); //inicialitzem a 0
