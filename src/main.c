@@ -1,4 +1,4 @@
-#include "init.c"
+#include "create.c"
 #include "algorithm.c"
 #include "plot.c"
 
@@ -54,12 +54,12 @@ int main()
         int l;
         for(l = 0; true; l++)
         {
-			keypad(window, TRUE); // No sé on es posa, si ho posem fora no funciona... millor deixar-ho per aquí
+            keypad(window, TRUE); // No sé on es posa, si ho posem fora no funciona... millor deixar-ho per aquí
 
             wait_for_next_key(KEY_RIGHT);
 
             next_state(cell_list,   &n_cells,   live_cells, checked_cells,
-                       cell_list_2, &n_cells_2, live_cells_2); // Per què li passem &n_cells també, si no ho fa servir?
+                       cell_list_2, &n_cells_2, live_cells_2); // Per què li passem &n_cells també, si no ho fa servir? --> Si que ho fa servir!
 
 
             plot_cells(live_cells_2);
