@@ -2,14 +2,21 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-// X CAP A BAIX, Y CAP A LA DRETA!
+// Our reference coordinate frame is located at the left top corner of the window.
+// X points down, Y points to right
 
+// Game window dimensions
 #define rows 40
 #define cols 80
 
-#define margin 100    //MUST BE AN EVEN NUMBER!!!!!!!!!!**************
+#define margin 100    //MUST BE AN EVEN NUMBER!
+        // This margin is used to create a bigger grid than the window. This assures that a moving group of cells
+        // will not collide to a border and change its behaviour, unless is deliverately wanted (margin 0).
 
-#define init_center_x (rows+margin)/2
+        // We decided not to use dynamic memory because we consider it useless in a limited plot window and dangerous for moving cells
+        // like a glider or a spaceship, that create an infinite grid through time.
+
+#define init_center_x (rows+margin)/2 // Center positions of the window
 #define init_center_y (cols+margin)/2
 
 
