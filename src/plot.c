@@ -33,20 +33,20 @@ int starting_menu() // Function that creates the starting menu
         mvwprintw( w, i+1, 2, "%s", item );
     }
  
-    wrefresh( w ); // Update the terminal screen
+    wrefresh( w );          // Update the terminal screen
  
     i = 1;
-    keypad( w, TRUE ); // Enable keyboard input for the window.
-    curs_set( 0 );     // Hide the default screen cursor.
+    keypad( w, TRUE );      // Enable keyboard input for the window.
+    curs_set( 0 );          // Hide the default screen cursor.
      
 
-    while (choice == -1){ // Get the input
+    while (choice == -1){   // Get the input
 			
             ch = wgetch(w);
-                // right pad with spaces to make the items appear with even width.
+                            // right pad with spaces to make the items appear with even width.
             sprintf(item, "%-15s",  list[i]); 
             mvwprintw( w, i+1, 2, "%s", item ); 
-               // use a variable to increment or decrement the value based on the input.
+                            // use a variable to increment or decrement the value based on the input.
             switch( ch ) {
                 case KEY_UP:
                     i--;
@@ -61,7 +61,7 @@ int starting_menu() // Function that creates the starting menu
                     break;
             }
 
-            // Now highlight the next item in the list.
+                             // Now highlight the next item in the list.
 
             wattron( w, A_STANDOUT | A_BOLD);
              
@@ -70,7 +70,7 @@ int starting_menu() // Function that creates the starting menu
             wattroff( w, A_STANDOUT | A_BOLD );
     }
  
-    delwin( w );
+    delwin(w);
     endwin();
     
     return choice;
@@ -97,7 +97,7 @@ void print_iter(unsigned long iter) // Function that creates the box and prints 
     WINDOW *w;
 
     w = newwin( 3, 30, 5, cols + 10 ); // create a new window
-    box( w, 0, 0 ); // sets default borders for the window
+    box( w, 0, 0 );                    // sets default borders for the window
 
     mvwprintw(w, 1, 1, "Iterations: %lu",iter);
 

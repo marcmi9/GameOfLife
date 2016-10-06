@@ -22,6 +22,16 @@
  *
 */
 
+//-------------------------------------------TEAM WORK--------------------------------------------------
+/*
+ * First of all, the 3 coders of this project contributed to the design of this code. All 3 thought about how to program and optimize the
+ * game. Then, we divided the tasks to develop and then we all implemented the program together.
+ * Working in this manner has led us to have better ideas with the brainstorming and then a fast implementation through the work division.
+ * In addition, the resulting code is well structured, coherent and easy to follow.
+ *
+ *
+*/
+
 #include "create.c"    // Contains the functions to create the initial common structures.
 #include "algorithm.c" // Contains all the logics of the game.
 #include "plot.c"      // Contains all the functions related to the visualization with ncurses.

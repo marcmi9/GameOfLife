@@ -9,7 +9,7 @@
 #define rows 40
 #define cols 80
 
-#define margin 100    //MUST BE AN EVEN NUMBER!
+#define margin 100  //MUST BE AN EVEN NUMBER!
         // This margin is used to create a bigger grid than the window. This assures that a moving group of cells
         // will not collide to a border and change its behaviour, unless is deliverately wanted (margin 0).
 
@@ -21,7 +21,8 @@
 
 
 void create_cell(int x, int y, int cell_list[(rows+margin)*(cols+margin)][2], int *n_cells, char live_cells[rows+margin][cols+margin])
-{
+{  // Function to create a cell in a certain coordinates
+
     cell_list[*n_cells][0] = x;
     cell_list[*n_cells][1] = y;
     live_cells[x][y] = 1;
@@ -30,7 +31,8 @@ void create_cell(int x, int y, int cell_list[(rows+margin)*(cols+margin)][2], in
 }
 
 void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+margin)][2], int *n_cells, char live_cells[rows+margin][cols+margin])
-{
+{  // Function to create a desired object in a certain coordinates. Is used to create the initial conditions.
+
     int k;
     switch(choice)
     {
