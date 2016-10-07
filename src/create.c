@@ -1,3 +1,9 @@
+/*
+ * This file contains all the functions related to the creation of cell structures,
+ * as well as the dimensions of the window and the margin.
+ * Coded by "Coder2"
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -9,7 +15,7 @@
 #define rows 40
 #define cols 80
 
-#define margin 100  //MUST BE AN EVEN NUMBER!
+#define margin 80  //MUST BE AN EVEN NUMBER!
         // This margin is used to create a bigger grid than the window. This assures that a moving group of cells
         // will not collide to a border and change its behaviour, unless is deliverately wanted (margin 0).
 
@@ -45,7 +51,7 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x-1, y  , cell_list, n_cells, live_cells);
             create_cell(x-1, y+1, cell_list, n_cells, live_cells);
 
-        break;
+            break;
 
         case 2:
 			// diehard
@@ -59,8 +65,7 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x+1, y+3, cell_list, n_cells, live_cells);
             create_cell(x+1, y+4, cell_list, n_cells, live_cells);
 
-
-        break;
+            break;
 
         case 3:
 			// acorn
@@ -73,7 +78,8 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x  , y+5, cell_list, n_cells, live_cells);
             create_cell(x  , y+6, cell_list, n_cells, live_cells);
 
-        break;
+            break;
+
         case 4:
 			// glider
             create_cell(x-1, y  , cell_list, n_cells, live_cells);
@@ -82,7 +88,7 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x+1, y  , cell_list, n_cells, live_cells);
             create_cell(x+1, y-1, cell_list, n_cells, live_cells);
 
-        break;
+            break;
 
         case 5:
 			// small_exploder
@@ -94,7 +100,7 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x-1, y+1, cell_list, n_cells, live_cells);
             create_cell(x  , y+1, cell_list, n_cells, live_cells);
 
-        break;
+            break;
 
         case 6:
 			// exploder
@@ -111,7 +117,7 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x-1, y-2, cell_list, n_cells, live_cells);
             create_cell(x-2, y-2, cell_list, n_cells, live_cells);
 
-        break;
+            break;
 
         case 7:
 			// 10_cell_row
@@ -120,7 +126,7 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
                create_cell(x, y + k, cell_list, n_cells, live_cells);
             }
 
-        break;
+            break;
 
         case 8:
 			// spaceship
@@ -134,7 +140,7 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x-1, y-2, cell_list, n_cells, live_cells);
             create_cell(x+1, y-2, cell_list, n_cells, live_cells);
 
-        break;
+            break;
 
         case 9:
 			// tumbler
@@ -162,8 +168,7 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x+2, y-3, cell_list, n_cells, live_cells);
             create_cell(x+1, y-3, cell_list, n_cells, live_cells);
 
-
-        break;
+            break;
 
         case 10:
         
@@ -210,7 +215,61 @@ void create_object(int x, int y, int choice, int cell_list[(rows+margin)*(cols+m
             create_cell(x+3, y+18, cell_list, n_cells, live_cells);
             create_cell(x+4, y+16, cell_list, n_cells, live_cells);
 		
-        break;
+            break;
+
+        case -10:
+                // glider_gun INVERTED
+            create_cell(x+3, y+19, cell_list, n_cells, live_cells);
+            create_cell(x+3, y+18, cell_list, n_cells, live_cells);
+            create_cell(x+2, y+19, cell_list, n_cells, live_cells);
+            create_cell(x+2, y+18, cell_list, n_cells, live_cells);
+
+            create_cell(x+3, y+10, cell_list, n_cells, live_cells);
+            create_cell(x+3, y+9,  cell_list, n_cells, live_cells);
+            create_cell(x+2, y+11, cell_list, n_cells, live_cells);
+            create_cell(x+2, y+9,  cell_list, n_cells, live_cells);
+            create_cell(x+1, y+11, cell_list, n_cells, live_cells);
+            create_cell(x+1, y+10, cell_list, n_cells, live_cells);
+
+            create_cell(x+1, y+3, cell_list, n_cells, live_cells);
+            create_cell(x+1, y+2, cell_list, n_cells, live_cells);
+            create_cell(x  , y+3, cell_list, n_cells, live_cells);
+            create_cell(x  , y+1, cell_list, n_cells, live_cells);
+            create_cell(x-1, y+3, cell_list, n_cells, live_cells);
+
+            create_cell(x+5, y-4, cell_list, n_cells, live_cells);
+            create_cell(x+5, y-5, cell_list, n_cells, live_cells);
+            create_cell(x+4, y-3, cell_list, n_cells, live_cells);
+            create_cell(x+4, y-5, cell_list, n_cells, live_cells);
+            create_cell(x+3, y-3, cell_list, n_cells, live_cells);
+            create_cell(x+3, y-4, cell_list, n_cells, live_cells);
+
+            create_cell(x-7, y-5, cell_list, n_cells, live_cells);
+            create_cell(x-7, y-6, cell_list, n_cells, live_cells);
+            create_cell(x-7, y-7, cell_list, n_cells, live_cells);
+            create_cell(x-8, y-5, cell_list, n_cells, live_cells);
+            create_cell(x-9, y-6, cell_list, n_cells, live_cells);
+
+            create_cell(x+5, y-15, cell_list, n_cells, live_cells);
+            create_cell(x+5, y-16, cell_list, n_cells, live_cells);
+            create_cell(x+4, y-15, cell_list, n_cells, live_cells);
+            create_cell(x+4, y-16, cell_list, n_cells, live_cells);
+
+            create_cell(x-2, y-16, cell_list, n_cells, live_cells);
+            create_cell(x-2, y-17, cell_list, n_cells, live_cells);
+            create_cell(x-3, y-16, cell_list, n_cells, live_cells);
+            create_cell(x-3, y-18, cell_list, n_cells, live_cells);
+            create_cell(x-4, y-16, cell_list, n_cells, live_cells);
+
+            break;
+
+        case 11:
+                // Glider WAR!
+
+            create_object(init_center_x - 10, init_center_y - 13,  10, cell_list, n_cells, live_cells); // normal glider gun
+            create_object(init_center_x + 10, init_center_y + 13, -10, cell_list, n_cells, live_cells); // inverse glider gun
+
+            break;
         
 
         default:

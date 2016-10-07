@@ -1,4 +1,9 @@
-#include <string.h>
+/*
+ * This file contains all the functions related to the game logic itself, including the already commented optimizations.
+ * Coded by "Coder3"
+*/
+
+#include <string.h> // used for the memset()
 
 int count_cells(int x, int y, char live_cells[rows+margin][cols+margin])
 {  // Function to count the number of cells in the neighbourhood.

@@ -22,13 +22,17 @@
  *
 */
 
-//-------------------------------------------TEAM WORK--------------------------------------------------
+//---------------------------------------------TEAM WORK--------------------------------------------------
 /*
  * First of all, the 3 coders of this project contributed to the design of this code. All 3 thought about how to program and optimize the
  * game. Then, we divided the tasks to develop and then we all implemented the program together.
  * Working in this manner has led us to have better ideas with the brainstorming and then a fast implementation through the work division.
  * In addition, the resulting code is well structured, coherent and easy to follow.
  *
+ * "Coder1" -> plot.c
+ * "Coder2" -> create.c
+ * "Coder3" -> algorithm.c
+ * All 3 coders -> main.c and the documentation
  *
 */
 
@@ -72,7 +76,7 @@ int main()
 
     int choice = starting_menu(); // The selection start menu
 
-    if (choice != 11) {
+    if (choice != n_choices) {
     //----------------------------------------------- initialization --------------------------------------------------
         unsigned long iter = 0;
 

@@ -1,6 +1,12 @@
+/*
+ * This file contains all the functions related to the ncurses library and visualizations.
+ * Coded by "Coder1"
+*/
+
 #include <ncurses.h>
 
-#define DELAY 200  // Delay between plots
+#define DELAY 200       // Delay between plots
+#define n_choices 12    // Number of menu choices available
 
 //------------------------------------GLOBAL VARIABLES----------------------------------------
 
@@ -14,14 +20,14 @@ int starting_menu() // Function that creates the starting menu
     int choice = -1;
 
     WINDOW *w;
-    char list[12][18] = { "SELECT (WITH ->):", "The R-Pentomino", "Diehard", "Acorn", "Glider", "Small Exploder", "Exploder", "10_cell_row", "Spaceship", "Tumbler", "Glider Gun", "QUIT" };
+    char list[n_choices + 1][18] = { "SELECT (WITH ->):", "The R-Pentomino", "Diehard", "Acorn", "Glider", "Small Exploder", "Exploder", "10_cell_row", "Spaceship", "Tumbler", "Glider Gun", "Glider WAR!", "QUIT" };
     char item[18];
     int i = 0;
 
-    w = newwin( 14, 22, 1, 40 ); // Create a new window
+    w = newwin(n_choices + 3, 22, 1, 40 ); // Create a new window
     box( w, 0, 0 );              // Sets default borders for the window
     
-    for(i = 0; i < 12; i++ ) {
+    for(i = 0; i < n_choices + 1; i++ ) {
         if (i == 1)
             wattron(w, A_STANDOUT | A_BOLD);
         else if( i == 0 ) 
@@ -50,11 +56,11 @@ int starting_menu() // Function that creates the starting menu
             switch( ch ) {
                 case KEY_UP:
                     i--;
-                    if (i < 1) i = 11;
+                    if (i < 1) i = n_choices;
                     break;
                 case KEY_DOWN:
                     i++;
-                    if (i > 11) i = 1;
+                    if (i > n_choices) i = 1;
                     break;
                 case KEY_RIGHT:
                     choice = i;
