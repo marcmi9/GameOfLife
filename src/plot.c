@@ -35,7 +35,8 @@ int starting_menu() // Function that creates the starting menu
         else
             wattroff( w, A_STANDOUT | A_BOLD );
 
-        sprintf(item, "%-18s",  list[i]); // Copies to the variable "item" the first 18 characters of list[i]
+        sprintf(item, "%-18s",  list[i]); // Copies to the variable "item" the first 18 characters of list[i], filling with spaces the extra characters.
+		// This allows to all have the same highlighted size.
         mvwprintw( w, i+1, 2, "%s", item ); // Prints to the window 'w' the variable "item"
     }
  
@@ -50,9 +51,10 @@ int starting_menu() // Function that creates the starting menu
 			
             ch = wgetch(w);
                             // right pad with spaces to make the items appear with even width.
-            sprintf(item, "%-18s",  list[i]); // Copies to the variable "item" the first 18 characters of list[i]
+            sprintf(item, "%-18s",  list[i]); // Copies to the variable "item" the first 18 characters of list[i], filling with spaces the extra characters.
+            // This allows to all have the same highlighted size.
             mvwprintw( w, i+1, 2, "%s", item ); // Prints to the window 'w' the variable "item"
-                            // use a variable to increment or decrement the value based on the input.
+			// use a variable to increment or decrement the value based on the input.
             switch( ch ) {
                 case KEY_UP:
                     i--;
@@ -71,7 +73,8 @@ int starting_menu() // Function that creates the starting menu
 
             wattron( w, A_STANDOUT | A_BOLD);
              
-            sprintf(item, "%-18s",  list[i]); // Copies to the variable "item" the first 18 characters of list[i]
+            sprintf(item, "%-18s",  list[i]); // Copies to the variable "item" the first 18 characters of list[i], filling with spaces the extra characters.
+            // This allows to all have the same highlighted size.
             mvwprintw( w, i+1, 2, "%s", item); // Prints to the window 'w' the variable "item"
             wattroff( w, A_STANDOUT | A_BOLD );
     }
